@@ -77,17 +77,25 @@
   }
 
   async function loadData() {
-    const manifestPromise = fetch('data/pfs/manifest.json').then((r) => r.json());
-    const indicatorsPromise = fetch('data/pfs/indicators-2024B.json').then((r) => r.json());
-    const localitiesPromise = fetch('data/pfs/localities-2024B.json').then((r) => r.json());
+    const indicatorsPromise = fetch('data/pfs/indicators-2024B.json').then((r) => {
+      if (!r.ok) {
+        throw new Error(`Failed to load indicators (${r.status})`);
+      }
+      return r.json();
+    });
+    const localitiesPromise = fetch('data/pfs/localities-2024B.json').then((r) => {
+      if (!r.ok) {
+        throw new Error(`Failed to load localities (${r.status})`);
+      }
+      return r.json();
+    });
 
-    const [manifest, indicators, localities] = await Promise.all([
-      manifestPromise,
+    const [indicators, localities] = await Promise.all([
       indicatorsPromise,
       localitiesPromise,
     ]);
 
-    return { manifest, indicators, localities };
+    return { indicators, localities };
   }
 
   function buildIndex(columns) {
@@ -105,11 +113,10 @@
 
     indicators.rows.forEach((row) => {
       const code = row[colIdx.hcpc];
-      const key = code;
-      if (!map.has(key)) {
-        map.set(key, []);
+      if (!map.has(code)) {
+        map.set(code, []);
       }
-      map.get(key).push(row);
+      map.get(code).push(row);
       codeList.add(code);
     });
 
@@ -132,7 +139,6 @@
       macMap.get(mac).push(row);
     });
 
-    // sort locality lists alphabetically
     for (const list of macMap.values()) {
       list.sort((a, b) => {
         const aDesc = (a[colIdx.description] || '').toUpperCase();
@@ -251,4 +257,4 @@
     const rvuWork = numberOrNull(indRow[idxInd.rvu_work]) || 0;
     const rvuMp = numberOrNull(indRow[idxInd.rvu_mp]) || 0;
 
-    const transNonFacPe = numberOrNull(indRow[idxInd.trans_nfac_pe
+    const transNonFac
