@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Live S&P 500 market heatmap and insights curated by Thingbert.">
-  <title>Market Analysis - Thingbert</title>
+  <meta name="description" content="Thingbert Insights packages timely trend reports, actuarial briefings, and data-led explainers."/>
+  <title>Insights - Thingbert</title>
   <link rel="stylesheet" href="styles.css?v=20251001">
   <script src="scripts.js?v=20251001" defer></script>
 </head>
@@ -21,7 +21,7 @@
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
-        <a href="market.html" class="active">Market Analysis</a>
+        <a href="market.html" class="active">Insights</a>
         <a href="contact.html">Contact</a>
       </nav>
     </div>
@@ -29,23 +29,68 @@
 
   <main class="container page-content">
     <header class="page-header" data-reveal>
-      <h1>Market Analysis</h1>
-      <p>Track current S&amp;P 500 movement at a glance. The heatmap below refreshes throughout the trading day, sizing sectors by market cap and coloring each company by its intraday change.</p>
+      <h1>Insights Library</h1>
+      <p>A growing collection of data stories, dashboards, and actuarial commentaries. Each insight surfaces the why behind the numbers and offers prompts for your next strategy discussion.</p>
     </header>
 
     <section class="page-section" data-reveal>
-      <div class="market-panel">
-        <h2>Live S&amp;P 500 Heatmap</h2>
-        <p class="market-panel__intro">Hover to inspect individual tickers, filter sectors, or zoom into areas of interest. Data is provided by TradingView and updates automatically.</p>
-        <div class="heatmap-embed">
-          <div class="tradingview-widget-container" data-tv-heatmap data-refresh-minutes="5">
-            <div class="tradingview-widget-copyright">
-              <a href="https://www.tradingview.com/heatmap/stock/?utm_source=thingbert.com&utm_medium=widget&utm_campaign=stock-heatmap" rel="noopener" target="_blank">S&amp;P 500 Heatmap by TradingView</a>
-            </div>
-          </div>
-        </div>
-        <p class="market-panel__note">Note: Trading hours and refresh cadence follow U.S. market schedules. Outside market hours, prices reflect the latest available close.</p>
+      <h2>Spotlight Series</h2>
+      <div class="card-grid">
+        <article>
+          <span class="tag">Healthcare</span>
+          <h3>Ambulatory Shift Monitor</h3>
+          <p>Tracking procedure migration, reimbursement swing, and member impact across major health systems.</p>
+          <ul class="feature-list">
+            <li>Monthly claim mix dashboard with actuarial guardrails.</li>
+            <li>Scenario prompts for contract renegotiations.</li>
+            <li>Benchmark notes comparing peer markets.</li>
+          </ul>
+        </article>
+        <article>
+          <span class="tag">Capital Markets</span>
+          <h3>Macro Signals Digest</h3>
+          <p>Condensing rate moves, credit spreads, and sector rotation into a one-page risk briefing.</p>
+          <ul class="feature-list">
+            <li>Heatmap of shifting volatility regimes.</li>
+            <li>Forward-looking stress cases for asset allocation.</li>
+            <li>Plain-language narrative for leadership decks.</li>
+          </ul>
+        </article>
+        <article>
+          <span class="tag">Future of Work</span>
+          <h3>Talent Supply Tracker</h3>
+          <p>Blending job postings, wage data, and internal HR metrics to highlight retention hotspots.</p>
+          <ul class="feature-list">
+            <li>Customized dashboards by geography and role.</li>
+            <li>Leading indicators for recruiting spend.</li>
+            <li>Actuarial commentary on cost-of-turnover.</li>
+          </ul>
+        </article>
       </div>
+    </section>
+
+    <section class="page-section" data-reveal>
+      <h2>What to Expect</h2>
+      <div class="highlights">
+        <article>
+          <h3>Interactive Views</h3>
+          <p>Dashboards and sandboxes built for exploration, with downloadable data cuts and API notes.</p>
+        </article>
+        <article>
+          <h3>Ask an Actuary</h3>
+          <p>Short videos and memos tackling reader questions&mdash;from capitation math to crypto risk.</p>
+        </article>
+        <article>
+          <h3>Notebook Drops</h3>
+          <p>Reproducible workflows that show the code, checks, and caveats behind each published trend.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="callout" data-reveal data-reveal-delay=".1s">
+      <h2>Have a dataset or hunch?</h2>
+      <p>Send the question our way. We can stress-test the data together and publish a co-branded insight.</p>
+      <a class="button" href="contact.html">Pitch an idea</a>
     </section>
   </main>
 
