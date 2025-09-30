@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Live S&P 500 market heatmap and insights curated by Thingbert.">
+  <title>Market Analysis - Thingbert</title>
+  <link rel="stylesheet" href="styles.css?v=20251001">
+  <script src="scripts.js?v=20251001" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="market.html" class="active">Market Analysis</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <header class="page-header" data-reveal>
+      <h1>Market Analysis</h1>
+      <p>Track current S&amp;P 500 movement at a glance. The heatmap below refreshes throughout the trading day, sizing sectors by market cap and coloring each company by its intraday change.</p>
+    </header>
+
+    <section class="page-section" data-reveal>
+      <div class="market-panel">
+        <h2>Live S&amp;P 500 Heatmap</h2>
+        <p class="market-panel__intro">Hover to inspect individual tickers, filter sectors, or zoom into areas of interest. Data is provided by TradingView and updates automatically.</p>
+        <div class="heatmap-embed">
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+            {
+              "dataSource": "S&P500",
+              "blockSize": "market_cap_basic",
+              "blockColor": "change",
+              "locale": "en",
+              "symbolUrl": "https://www.tradingview.com/symbols/{symbol}/",
+              "colorTheme": "light",
+              "hasTopBar": true,
+              "isDataSetEnabled": false,
+              "isZoomEnabled": true,
+              "hasSymbolTooltip": true,
+              "hasLegend": true,
+              "isMonoSize": false,
+              "width": "100%",
+              "height": 620
+            }
+            </script>
+          </div>
+        </div>
+        <p class="market-panel__note">Note: Trading hours and refresh cadence follow U.S. market schedules. Outside market hours, prices reflect the latest available close.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+    </div>
+  </footer>
+</body>
+</html>
