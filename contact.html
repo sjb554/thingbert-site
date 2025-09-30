@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Connect with Thingbert to collaborate, join the newsletter, or follow along with new experiments.">
   <title>Contact - Thingbert</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="index.html">Thingbert</a>
-      <nav class="site-nav">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
@@ -20,26 +27,36 @@
   </header>
 
   <main class="container page-content">
-    <h1>Contact</h1>
-    <p>Interested in collaborating or learning more about the work? Reach out and we can start a conversation.</p>
+    <header class="page-header" data-reveal>
+      <h1>Contact</h1>
+      <p>Interested in collaborating or learning more about the work? Reach out and we can start a conversation.</p>
+    </header>
 
-    <section class="contact-grid">
-      <div>
-        <h2>Email</h2>
-        <p><a href="mailto:hello@thingbert.com">hello@thingbert.com</a></p>
-      </div>
-      <div>
-        <h2>Newsletter</h2>
-        <p>Sign up to receive occasional updates about new experiments, events, and behind-the-scenes notes.</p>
-        <a class="button" href="#">Join the list</a>
-      </div>
-      <div>
-        <h2>Social</h2>
-        <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">YouTube</a></li>
-          <li><a href="#">Github</a></li>
-        </ul>
+    <section data-reveal>
+      <div class="contact-grid">
+        <div data-reveal>
+          <h2>Email</h2>
+          <p><a href="mailto:hello@thingbert.com">hello@thingbert.com</a></p>
+          <p>Share project details, timelines, or prompts you want to explore together.</p>
+        </div>
+        <div data-reveal data-reveal-delay=".08s">
+          <h2>Newsletter</h2>
+          <p>Occasional updates about new experiments, events, and behind-the-scenes notes.</p>
+          <form class="inline-form" action="#" method="post">
+            <label class="sr-only" for="newsletter-email">Email address</label>
+            <input id="newsletter-email" type="email" name="email" placeholder="you@example.com" required>
+            <button class="button" type="submit">Join the list</button>
+          </form>
+        </div>
+        <div data-reveal data-reveal-delay=".16s">
+          <h2>Social</h2>
+          <p>Follow along for process clips, dev logs, and invitations to play-tests.</p>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">YouTube</a></li>
+            <li><a href="#">GitHub</a></li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>

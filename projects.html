@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Thingbert projects blending interactive installations, experimental sound, and narrative systems.">
   <title>Projects - Thingbert</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="index.html">Thingbert</a>
-      <nav class="site-nav">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html" class="active">Projects</a>
@@ -20,26 +27,56 @@
   </header>
 
   <main class="container page-content">
-    <h1>Projects</h1>
-    <p>Selected experiments and installations. Each project includes notes so you can see how it evolved.</p>
+    <header class="page-header" data-reveal>
+      <h1>Projects</h1>
+      <p>Selected experiments and installations. Each project includes notes so you can see how it evolved.</p>
+    </header>
 
-    <div class="project-list">
-      <article>
-        <h2>Signal Garden</h2>
-        <p>Interactive sound sculptures that respond to biometric signals and ambient noise.</p>
-        <a class="more" href="#">Read the case study</a>
-      </article>
-      <article>
-        <h2>Roomtone</h2>
-        <p>An ambient storytelling installation that remixes field recordings based on visitor movement.</p>
-        <a class="more" href="#">Read the case study</a>
-      </article>
-      <article>
-        <h2>Lightfield Atlas</h2>
-        <p>A web-based playground for exploring generative light patterns and realtime shader sketches.</p>
-        <a class="more" href="#">Read the case study</a>
-      </article>
-    </div>
+    <section data-reveal>
+      <div class="project-list">
+        <article data-reveal>
+          <span class="tag">Immersive</span>
+          <h2>Signal Garden</h2>
+          <p>Interactive sound sculptures that respond to biometric signals and ambient noise, creating a living score that shifts with each visitor.</p>
+          <div class="project-meta">
+            <span>Focus: Biofeedback audio</span>
+            <span>Role: Systems design &amp; composition</span>
+            <span>Stage: Touring installation</span>
+          </div>
+          <a class="more" href="#">Read the case study</a>
+        </article>
+
+        <article data-reveal data-reveal-delay=".08s">
+          <span class="tag">Story</span>
+          <h2>Roomtone</h2>
+          <p>An ambient storytelling installation that remixes field recordings based on visitor movement, weaving communal narratives in real time.</p>
+          <div class="project-meta">
+            <span>Focus: Motion-driven narrative</span>
+            <span>Role: Creative direction &amp; prototyping</span>
+            <span>Stage: Beta lab sessions</span>
+          </div>
+          <a class="more" href="#">Read the case study</a>
+        </article>
+
+        <article data-reveal data-reveal-delay=".16s">
+          <span class="tag">Web Lab</span>
+          <h2>Lightfield Atlas</h2>
+          <p>A browser-based playground for exploring generative light patterns and realtime shader sketches with collaborative tools.</p>
+          <div class="project-meta">
+            <span>Focus: WebGL + MIDI</span>
+            <span>Role: Interaction design</span>
+            <span>Stage: Public alpha</span>
+          </div>
+          <a class="more" href="#">Read the case study</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="callout" data-reveal data-reveal-delay=".12s">
+      <h2>Got a project in mind?</h2>
+      <p>We love prototyping with new collaborators&mdash;whether you have a venue, a dataset, or just a hunch for a sensory story.</p>
+      <a class="button button-secondary" href="contact.html">Start the conversation</a>
+    </section>
   </main>
 
   <footer class="site-footer">

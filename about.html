@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Thingbert is a creative technology studio exploring playful, human-centered experimentation.">
   <title>About - Thingbert</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="index.html">Thingbert</a>
-      <nav class="site-nav">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
         <a href="index.html">Home</a>
         <a href="about.html" class="active">About</a>
         <a href="projects.html">Projects</a>
@@ -20,10 +27,12 @@
   </header>
 
   <main class="container page-content">
-    <h1>About Thingbert</h1>
-    <p>Thingbert is a studio devoted to playful, human-centered experimentation. We explore how emerging technologies can create surprising, meaningful, and accessible experiences.</p>
+    <header class="page-header" data-reveal>
+      <h1>About Thingbert</h1>
+      <p>Thingbert is a studio devoted to playful, human-centered experimentation. We explore how emerging technologies can create surprising, meaningful, and accessible experiences.</p>
+    </header>
 
-    <section>
+    <section class="page-section" data-reveal>
       <h2>Guiding Principles</h2>
       <ul class="list-grid">
         <li><strong>Curiosity:</strong> Every prototype starts with a question that invites discovery.</li>
@@ -32,9 +41,24 @@
       </ul>
     </section>
 
-    <section>
+    <section class="page-section" data-reveal>
       <h2>Capabilities</h2>
       <p>From rapid physical prototypes to immersive audiovisual installations, we combine design, code, and storytelling to bring ideas to life.</p>
+      <ul class="list-grid">
+        <li><strong>Immersive Audio:</strong> Spatial mixes, responsive soundscapes, and adaptive music systems.</li>
+        <li><strong>Interactive Spaces:</strong> Projection, light, and tactile interfaces that react to people in real time.</li>
+        <li><strong>Story Systems:</strong> Narrative engines that remix content based on emotion, movement, or biometric cues.</li>
+      </ul>
+    </section>
+
+    <section class="page-section" data-reveal>
+      <h2>In the Studio</h2>
+      <p>Each project is shaped by small, focused cycles that allow experimentation and community input.</p>
+      <ul class="list-grid">
+        <li><strong>Listening Sessions:</strong> Gather perspectives from collaborators, audiences, and field recordings.</li>
+        <li><strong>Prototype Sprints:</strong> Build quick iterations that make questions tangible and testable.</li>
+        <li><strong>Open Notes:</strong> Publish findings, patch notes, and prompts so others can remix the work.</li>
+      </ul>
     </section>
   </main>
 

@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Thingbert prototypes playful, story-driven experiments blending art, code, and curiosity.">
   <title>Thingbert - Creative Experiments</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="index.html">Thingbert</a>
-      <nav class="site-nav">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
         <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
@@ -19,32 +26,82 @@
     </div>
   </header>
 
-  <main class="hero">
-    <div class="container">
-      <h1>Welcome to Thingbert</h1>
-      <p>Experiments at the edge of art, code, and curiosity.</p>
-      <a class="button" href="projects.html">See the latest work</a>
-    </div>
-  </main>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy" data-reveal>
+          <span class="hero-eyebrow">Creative research lab</span>
+          <h1>Interfaces for play, wonder, and the future of storytelling.</h1>
+          <p class="hero-lead">Thingbert blends art, code, and emergent technology to craft experiments that invite people to touch, listen, and participate in living narratives.</p>
+          <div class="hero-actions">
+            <a class="button" href="projects.html">See the latest work</a>
+            <a class="button button-secondary" href="contact.html">Start a collaboration</a>
+          </div>
+          <ul class="hero-meta">
+            <li data-reveal>
+              <span class="eyebrow">Focus</span>
+              Spatial audio playgrounds, responsive environments, and narrative sensors that react in real time.
+            </li>
+            <li data-reveal data-reveal-delay=".1s">
+              <span class="eyebrow">Approach</span>
+              Rapid prototyping, transparent process notes, and open-source tools shared with the community.
+            </li>
+          </ul>
+        </div>
+        <div class="hero-media" data-reveal data-reveal-delay=".12s" aria-hidden="true">
+          <div class="hero-chip accent">Signal Garden</div>
+          <div class="hero-chip small">Narrative Systems</div>
+          <div class="hero-chip small">Ambient Sensors</div>
+        </div>
+      </div>
+    </section>
 
-  <section class="container intro">
-    <h2>What is Thingbert?</h2>
-    <p>Thingbert is a playground for creative technology - installations, prototypes, and ideas that blend interactivity with storytelling.</p>
-    <div class="highlights">
-      <article>
-        <h3>Hybrid Media</h3>
-        <p>Mixing audio, visuals, and unexpected inputs to invite playful exploration.</p>
-      </article>
-      <article>
-        <h3>Open Experimentation</h3>
-        <p>Sharing works in progress, process notes, and lessons along the way.</p>
-      </article>
-      <article>
-        <h3>Community</h3>
-        <p>Collaborating with artists, engineers, and dreamers to bring ideas to life.</p>
-      </article>
-    </div>
-  </section>
+    <section class="container intro" data-reveal>
+      <h2>What is Thingbert?</h2>
+      <p>Thingbert is a playground for creative technology&mdash;installations, prototypes, and story-driven interfaces that experiment with how people feel, respond, and collaborate.</p>
+      <div class="highlights">
+        <article data-reveal>
+          <h3>Hybrid Media</h3>
+          <p>Mixing audio, projection, and unexpected inputs to invite playful exploration across space and screen.</p>
+        </article>
+        <article data-reveal data-reveal-delay=".08s">
+          <h3>Open Experimentation</h3>
+          <p>Sharing works in progress, patch notes, and experiments so others can remix the process.</p>
+        </article>
+        <article data-reveal data-reveal-delay=".16s">
+          <h3>Community</h3>
+          <p>Collaborating with artists, engineers, and dreamers to bring multi-sensory ideas to life.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container signal-grid" data-reveal>
+      <div class="signal-heading">
+        <h2>Latest Signals</h2>
+        <p>Snapshots from the lab: systems being tuned, interfaces being play-tested, and prototypes ready for the next collaborator.</p>
+      </div>
+      <div class="card-grid">
+        <article data-reveal>
+          <span class="tag">Live</span>
+          <h3>Listening Walls</h3>
+          <p>An adaptive soundscape using beamforming microphones to score the ambient mood of a room.</p>
+          <a class="more" href="projects.html">Peek inside</a>
+        </article>
+        <article data-reveal data-reveal-delay=".08s">
+          <span class="tag">In Progress</span>
+          <h3>Atlas V2</h3>
+          <p>Generative lightfield sketches responding to biometric sensors and custom web MIDI tools.</p>
+          <a class="more" href="projects.html">See the roadmap</a>
+        </article>
+        <article data-reveal data-reveal-delay=".16s">
+          <span class="tag">Open Call</span>
+          <h3>Tactile Stories</h3>
+          <p>Seeking collaborators to explore haptic storytelling kits for community workshops.</p>
+          <a class="more" href="contact.html">Partner with Thingbert</a>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <footer class="site-footer">
     <div class="container">
