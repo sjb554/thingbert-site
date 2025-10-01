@@ -194,7 +194,115 @@
     </section>
 
     <section class="insight-section" data-reveal data-reveal-delay=".12s">
-      <h2>3. Download the Analysis Files</h2>
+      <h2>3. Heart Risk Estimator (Beta)</h2>
+      <p>Plug in the same inputs used in the model to see the logistic regression probability. This demo runs entirely in your browser; nothing is stored or transmitted.</p>
+      <form id="heart-risk-form" class="risk-form" novalidate>
+        <div class="form-grid">
+          <label>
+            <span>Age (years)</span>
+            <input type="number" name="age" min="18" max="100" step="1" required>
+          </label>
+          <label>
+            <span>Sex</span>
+            <select name="sex" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </label>
+          <label>
+            <span>Chest pain type</span>
+            <select name="cp" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Typical angina</option>
+              <option value="2">Atypical angina</option>
+              <option value="3">Non-anginal pain</option>
+              <option value="4">Asymptomatic</option>
+            </select>
+          </label>
+          <label>
+            <span>Resting blood pressure (mm Hg)</span>
+            <input type="number" name="trestbps" min="80" max="220" required>
+          </label>
+          <label>
+            <span>Serum cholesterol (mg/dL)</span>
+            <input type="number" name="chol" min="100" max="600" required>
+          </label>
+          <label>
+            <span>Fasting blood sugar &gt; 120 mg/dL?</span>
+            <select name="fbs" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </label>
+          <label>
+            <span>Resting ECG</span>
+            <select name="restecg" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">Normal</option>
+              <option value="1">ST-T abnormality</option>
+              <option value="2">Left ventricular hypertrophy</option>
+            </select>
+          </label>
+          <label>
+            <span>Max heart rate achieved</span>
+            <input type="number" name="thalach" min="70" max="220" required>
+          </label>
+          <label>
+            <span>Exercise-induced angina?</span>
+            <select name="exang" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </label>
+          <label>
+            <span>ST depression (oldpeak)</span>
+            <input type="number" name="oldpeak" min="0" max="6" step="0.1" required>
+          </label>
+          <label>
+            <span>Slope of ST segment</span>
+            <select name="slope" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Upsloping</option>
+              <option value="2">Flat</option>
+              <option value="3">Downsloping</option>
+            </select>
+          </label>
+          <label>
+            <span>Number of major vessels (ca)</span>
+            <select name="ca" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </label>
+          <label>
+            <span>Thallium stress result (thal)</span>
+            <select name="thal" required>
+              <option value="" disabled selected>Select</option>
+              <option value="3">Normal</option>
+              <option value="6">Fixed defect</option>
+              <option value="7">Reversible defect</option>
+            </select>
+          </label>
+        </div>
+        <button class="button" type="submit">Estimate risk</button>
+        <p class="form-note">Educational use only. Consult a clinician for medical decisions.</p>
+      </form>
+      <div id="risk-output" class="risk-output hidden" aria-live="polite">
+        <div class="risk-score">Estimated probability of heart disease: <span id="risk-probability">--%</span></div>
+        <p id="risk-tier" class="risk-tier"></p>
+        <p id="risk-context" class="risk-context"></p>
+      </div>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".15s">
+      <h2>4. Download the Analysis Files</h2>
       <p>Same artifacts we used internally—ideal for replicating the workflow or reviewing the numbers in detail.</p>
       <ul class="resource-list">
         <li class="resource-item">
@@ -215,12 +323,18 @@
             <span class="resource-meta">Visual guide to feature relationships</span>
           </a>
         </li>
+        <li class="resource-item">
+          <a href="assets/heart/heart-disease-logistic-params.json" download>
+            <span class="resource-title">Model parameters (JSON)</span>
+            <span class="resource-meta">Scaler means, variances, and logistic coefficients</span>
+          </a>
+        </li>
       </ul>
     </section>
 
-    <section class="insight-section" data-reveal data-reveal-delay=".16s">
-      <h2>4. Interactive Prototype Roadmap</h2>
-      <p>Ready to turn this into an on-site estimator? These steps outline the lift.</p>
+    <section class="insight-section" data-reveal data-reveal-delay=".18s">
+      <h2>5. Implementation Roadmap</h2>
+      <p>To graduate the in-browser demo into a production experience, follow this path.</p>
       <ol class="roadmap-list">
         <li>Expose an API (FastAPI or Flask) that loads the serialized logistic regression pipeline and validates user inputs.</li>
         <li>Design a lightweight intake form (age, sex, chest pain type, vitals, exercise response) that mirrors the model features.</li>

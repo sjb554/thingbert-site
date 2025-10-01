@@ -1034,6 +1034,93 @@ main {
   color: var(--muted-alt);
 }
 
+
+.hidden {
+  display: none !important;
+}
+
+.risk-form {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  box-shadow: var(--shadow-outline);
+}
+
+.form-grid label span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.6rem;
+}
+
+.form-grid input,
+.form-grid select {
+  font: inherit;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #fff;
+  color: var(--foreground);
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.form-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted-alt);
+}
+
+.risk-output {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: var(--shadow-outline);
+}
+
+.risk-score {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--foreground);
+}
+
+.risk-score span {
+  font-size: 1.6rem;
+  margin-left: 0.35rem;
+}
+
+.risk-tier {
+  margin: 0.6rem 0 0;
+  font-weight: 600;
+}
+
+.risk-context {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
 .table-scroll {
   margin: 1.5rem 0 0;
   overflow-x: auto;
