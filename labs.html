@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Walk through a Thingbert lab that cleans the Cleveland heart disease dataset, benchmarks models, and offers a browser-based estimator."/>
+  <title>Thingbert Labs — Heart Disease Risk Prototype</title>
+  <link rel="stylesheet" href="assets/css/main.css?v=20251001">
+  <script src="assets/js/site.js?v=20251001" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="market.html">Insights</a>
+        <a href="labs.html" class="active">Labs</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <header class="page-header" data-reveal>
+      <span class="eyebrow">Thingbert Labs</span>
+      <h1>Cleveland Heart Disease Risk Prototype</h1>
+      <p>This lab walks through the full Thingbert pipeline: cleaning the UCI Cleveland dataset, benchmarking two classifiers, and sketching how an interactive risk check could live on the site.</p>
+    </header>
+
+    <section class="insight-section" data-reveal>
+      <h2>Executive Overview</h2>
+      <p>A quick orientation for non-technical readers. The dataset follows 303 patients evaluated for heart disease at Cleveland Clinic and uses their vitals to flag likely disease.</p>
+      <ul class="overview-list">
+        <li><strong>Population.</strong> 303 patient records from the Cleveland Clinic Heart Disease study hosted by the UCI Machine Learning Repository.</li>
+        <li><strong>Process.</strong> Replaced '?' placeholders with missing values, filled gaps with column medians, and converted the outcome to a simple yes/no indicator.</li>
+        <li><strong>Outcome.</strong> Logistic regression caught 26 of 28 disease cases on the test set while keeping false alarms to 6; the decision tree missed 5 cases.</li>
+        <li><strong>How to read it.</strong> Use the cards below for headline numbers, the Feature Guide to decode inputs, and the downloads to inspect the full evaluation.</li>
+      </ul>
+      <div class="callout-note">Important: This is a historical modelling exercise meant for analytics practice. It is not medical advice or a diagnostic tool.</div>
+    </section>
+
+    <section class="insight-section" data-reveal>
+      <h2>Snapshot</h2>
+      <p>We cleaned the Cleveland cohort, converted the target to a simple yes/no heart disease indicator, and stacked two baseline models. The scaled logistic regression pipeline produced the strongest balance of sensitivity and specificity.</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Accuracy</span>
+          <h3>0.869</h3>
+          <p>Share of correct predictions on the 61-person test set.</p>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Split Size</span>
+          <h3>242 / 61</h3>
+          <p>Training vs. testing rows after an 80/20 stratified split.</p>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Precision</span>
+          <h3>0.93 / 0.81</h3>
+          <p>When the model says "no disease" or "disease", this is how often it is right.</p>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Recall</span>
+          <h3>0.82 / 0.93</h3>
+          <p>How many real negatives/positives the model successfully captured.</p>
+        </div>
+      </div>
+      <p class="metric-explainer">Precision and recall are listed as <em>no disease / disease</em>. Logistic regression kept false negatives (missed disease) to just 2 cases, an improvement over the decision tree&rsquo;s 5.</p>
+      <p class="metric-explainer">Think of the confusion matrix this way: <strong>27</strong> true negatives, <strong>26</strong> true positives, with <strong>6</strong> false alarms and only <strong>2</strong> missed cases. Those totals come straight from the evaluation file below.</p>
+      <figure class="heatmap-card">
+        <img src="assets/img/heart-disease-correlation.png" alt="Correlation heatmap for the Cleveland heart disease features">
+        <figcaption>Heatmap from the cleaned training set shows chest pain type (<code>cp</code>), thallium test result (<code>thal</code>), and ST depression (<code>oldpeak</code>) as leading indicators.</figcaption>
+      </figure>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".04s">
+      <h2>Feature Guide</h2>
+      <p>Each row is a person who received a heart disease work-up. Use this glossary to decode the variables and interpret the heatmap.</p>
+      <dl class="feature-glossary">
+        <div>
+          <dt>age</dt>
+          <dd>Age in years at the time of the visit.</dd>
+        </div>
+        <div>
+          <dt>sex</dt>
+          <dd>Biological sex (1 = male, 0 = female).</dd>
+        </div>
+        <div>
+          <dt>cp</dt>
+          <dd>Chest pain type (1 typical angina &rarr; 4 asymptomatic).</dd>
+        </div>
+        <div>
+          <dt>trestbps</dt>
+          <dd>Resting blood pressure (mm Hg).</dd>
+        </div>
+        <div>
+          <dt>chol</dt>
+          <dd>Serum cholesterol (mg/dL).</dd>
+        </div>
+        <div>
+          <dt>fbs</dt>
+          <dd>Fasting blood sugar &gt; 120 mg/dL (1 = true).</dd>
+        </div>
+        <div>
+          <dt>restecg</dt>
+          <dd>Resting electrocardiogram (0 = normal, 1 = ST-T abnormality, 2 = probable LV hypertrophy).</dd>
+        </div>
+        <div>
+          <dt>thalach</dt>
+          <dd>Maximum heart rate achieved during exercise.</dd>
+        </div>
+        <div>
+          <dt>exang</dt>
+          <dd>Exercise-induced angina (1 = yes).</dd>
+        </div>
+        <div>
+          <dt>oldpeak</dt>
+          <dd>ST depression induced by exercise relative to rest.</dd>
+        </div>
+        <div>
+          <dt>slope</dt>
+          <dd>Slope of the peak exercise ST segment (1 upsloping, 2 flat, 3 downsloping).</dd>
+        </div>
+        <div>
+          <dt>ca</dt>
+          <dd>Count of major vessels (0&ndash;3) shown via fluoroscopy.</dd>
+        </div>
+        <div>
+          <dt>thal</dt>
+          <dd>Thallium stress-test result (3 normal, 6 fixed defect, 7 reversible defect).</dd>
+        </div>
+        <div>
+          <dt>target</dt>
+          <dd>Thingbert label: 1 = heart disease present, 0 = no heart disease.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".05s">
+      <h2>1. Workflow Summary</h2>
+      <p>Use these talking points when you need to walk stakeholders through the approach.</p>
+      <ul class="summary-list">
+        <li><strong>Data hygiene.</strong> Replaced <code>?</code> placeholders with missing values, filled numeric gaps with column medians, and recast the outcome to <em>disease present vs. not present</em>.</li>
+        <li><strong>Model line-up.</strong> Compared a standardised logistic regression (balanced class weights) with a shallow decision tree to keep the story interpretable.</li>
+        <li><strong>Performance in context.</strong> Logistic regression is the safer choice here&mdash;it missed only 2 disease cases on the test set, compared with 5 misses from the tree.</li>
+        <li><strong>What drives risk.</strong> Chest pain type (<code>cp</code>), thallium test result (<code>thal</code>), and exercise-induced ST depression (<code>oldpeak</code>) carry the strongest signals.</li>
+        <li><strong>Caveats.</strong> Sample size is modest and sourced from a single clinic; treat outputs as illustrative benchmarks, not clinical guidance.</li>
+      </ul>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".09s">
+      <h2>2. Technical Appendix</h2>
+      <p>For analysts, here are the holdout metrics for each model. Precision and recall values are shown as <em>no disease / disease</em>.</p>
+      <div class="table-scroll">
+        <table class="model-metrics">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>Confusion matrix</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Logistic regression</td>
+              <td>0.869</td>
+              <td>0.93 / 0.81</td>
+              <td>0.82 / 0.93</td>
+              <td><code>[[27, 6], [2, 26]]</code></td>
+              <td>Standardised features, balanced class weights (liblinear solver).</td>
+            </tr>
+            <tr>
+              <td>Decision tree</td>
+              <td>0.770</td>
+              <td>0.83 / 0.72</td>
+              <td>0.73 / 0.82</td>
+              <td><code>[[24, 9], [5, 23]]</code></td>
+              <td>Depth 4, min leaf 5 with class balancing; higher variance, more missed cases.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="technical-note">Recreate the run by loading <code>heart_disease/heart_disease_model.pkl</code> with <code>joblib.load</code> and calling <code>model.predict</code> on the cleaned dataset.</p>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".12s">
+      <h2>3. Heart Risk Estimator (Beta)</h2>
+      <p>Plug in the same inputs used in the model to see the logistic regression probability. This demo runs entirely in your browser; nothing is stored or transmitted.</p>
+      <form id="heart-risk-form" class="risk-form" novalidate>
+        <div class="form-grid">
+          <label>
+            <span>Age (years)</span>
+            <input type="number" name="age" min="18" max="100" step="1" required>
+          </label>
+          <label>
+            <span>Sex</span>
+            <select name="sex" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </label>
+          <label>
+            <span>Chest pain type</span>
+            <select name="cp" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Typical angina</option>
+              <option value="2">Atypical angina</option>
+              <option value="3">Non-anginal pain</option>
+              <option value="4">Asymptomatic</option>
+            </select>
+          </label>
+          <label>
+            <span>Resting blood pressure (mm Hg)</span>
+            <input type="number" name="trestbps" min="80" max="220" required>
+          </label>
+          <label>
+            <span>Serum cholesterol (mg/dL)</span>
+            <input type="number" name="chol" min="100" max="600" required>
+          </label>
+          <label>
+            <span>Fasting blood sugar &gt; 120 mg/dL?</span>
+            <select name="fbs" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </label>
+          <label>
+            <span>Resting ECG</span>
+            <select name="restecg" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">Normal</option>
+              <option value="1">ST-T abnormality</option>
+              <option value="2">Left ventricular hypertrophy</option>
+            </select>
+          </label>
+          <label>
+            <span>Max heart rate achieved</span>
+            <input type="number" name="thalach" min="70" max="220" required>
+          </label>
+          <label>
+            <span>Exercise-induced angina?</span>
+            <select name="exang" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </label>
+          <label>
+            <span>ST depression (oldpeak)</span>
+            <input type="number" name="oldpeak" min="0" max="6" step="0.1" required>
+          </label>
+          <label>
+            <span>Slope of ST segment</span>
+            <select name="slope" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Upsloping</option>
+              <option value="2">Flat</option>
+              <option value="3">Downsloping</option>
+            </select>
+          </label>
+          <label>
+            <span>Number of major vessels (ca)</span>
+            <select name="ca" required>
+              <option value="" disabled selected>Select</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </label>
+          <label>
+            <span>Thallium stress result (thal)</span>
+            <select name="thal" required>
+              <option value="" disabled selected>Select</option>
+              <option value="3">Normal</option>
+              <option value="6">Fixed defect</option>
+              <option value="7">Reversible defect</option>
+            </select>
+          </label>
+        </div>
+        <button class="button" type="submit">Estimate risk</button>
+        <p class="form-note">Educational use only. Consult a clinician for medical decisions.</p>
+      </form>
+      <div id="risk-output" class="risk-output hidden" aria-live="polite">
+        <div class="risk-score">Estimated probability of heart disease: <span id="risk-probability">--%</span></div>
+        <p id="risk-tier" class="risk-tier"></p>
+        <p id="risk-context" class="risk-context"></p>
+      </div>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".15s">
+      <h2>4. Download the Analysis Files</h2>
+      <p>Same artifacts we used internally—ideal for replicating the workflow or reviewing the numbers in detail.</p>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <a href="assets/data/heart-disease-clean.csv" download>
+            <span class="resource-title">Cleaned dataset (CSV)</span>
+            <span class="resource-meta">303 rows × 14 columns, target already binarized</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="assets/docs/heart-disease-model-report.txt" download>
+            <span class="resource-title">Model comparison notes (TXT)</span>
+            <span class="resource-meta">Accuracy, precision/recall, confusion matrices</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="assets/img/heart-disease-correlation.png" download>
+            <span class="resource-title">Correlation heatmap (PNG)</span>
+            <span class="resource-meta">Visual guide to feature relationships</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="assets/models/heart-disease-logistic-params.json" download>
+            <span class="resource-title">Model parameters (JSON)</span>
+            <span class="resource-meta">Scaler means, variances, and logistic coefficients</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".18s">
+      <h2>5. Implementation Roadmap</h2>
+      <p>To graduate the in-browser demo into a production experience, follow this path.</p>
+      <ol class="roadmap-list">
+        <li>Expose an API (FastAPI or Flask) that loads the serialized logistic regression pipeline and validates user inputs.</li>
+        <li>Design a lightweight intake form (age, sex, chest pain type, vitals, exercise response) that mirrors the model features.</li>
+        <li>Return risk probabilities with guardrails: flag inputs outside training ranges, display calibration notes, and surface the confusion matrix for context.</li>
+        <li>Add analytics tracking to gauge engagement and iterate on the question flow before promoting broadly.</li>
+      </ol>
+      <p class="roadmap-note">The trained pipeline lives in the working repo at <code>heart_disease/heart_disease_model.pkl</code>. Wire it into a microservice when you are ready to test the interaction.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+    </div>
+  </footer>
+</body>
+</html>
