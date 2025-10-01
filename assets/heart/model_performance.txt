@@ -1,0 +1,27 @@
+=== logistic_regression ===
+              precision    recall  f1-score   support
+
+           0      0.931     0.818     0.871        33
+           1      0.812     0.929     0.867        28
+
+    accuracy                          0.869        61
+   macro avg      0.872     0.873     0.869        61
+weighted avg      0.877     0.869     0.869        61
+
+Confusion matrix:
+[[27  6]
+ [ 2 26]]
+
+=== decision_tree ===
+              precision    recall  f1-score   support
+
+           0      0.828     0.727     0.774        33
+           1      0.719     0.821     0.767        28
+
+    accuracy                          0.770        61
+   macro avg      0.773     0.774     0.770        61
+weighted avg      0.778     0.770     0.771        61
+
+Confusion matrix:
+[[24  9]
+ [ 5 23]]

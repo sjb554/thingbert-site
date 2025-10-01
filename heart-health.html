@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cleveland heart disease model lab: cleaning steps, downloads, and roadmap for an interactive risk tool."/>
+  <title>Heart Health Lab - Thingbert</title>
+  <link rel="stylesheet" href="styles.css?v=20251001">
+  <script src="scripts.js?v=20251001" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="market.html">Insights</a>
+        <a href="heart-health.html" class="active">Heart Health</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <header class="page-header" data-reveal>
+      <span class="eyebrow">Model lab</span>
+      <h1>Cleveland Heart Disease Risk Prototype</h1>
+      <p>This workspace walks through the full Thingbert pipeline: cleaning the UCI Cleveland dataset, benchmarking two classifiers, and sketching how an interactive risk check could live on the site.</p>
+    </header>
+
+    <section class="insight-section" data-reveal>
+      <h2>Snapshot</h2>
+      <p>We imputed missing fields, collapsed the target to presence vs. absence of heart disease, and evaluated a balanced logistic regression against a shallow decision tree. The logistic approach wins for this cohort.</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h3>0.869</h3>
+          <span>Test accuracy for logistic regression</span>
+        </div>
+        <div class="metric-card">
+          <h3>242 / 61</h3>
+          <span>Train / test split size</span>
+        </div>
+        <div class="metric-card">
+          <h3>93% / 81%</h3>
+          <span>Precision (no disease / disease)</span>
+        </div>
+        <div class="metric-card">
+          <h3>82% / 93%</h3>
+          <span>Recall (no disease / disease)</span>
+        </div>
+      </div>
+      <figure class="heatmap-card">
+        <img src="assets/heart/correlation_heatmap.png" alt="Correlation heatmap for the Cleveland heart disease features">
+        <figcaption>Correlation heatmap from the cleaned training set highlights the thal, cp, and oldpeak signals.</figcaption>
+      </figure>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".05s">
+      <h2>1. Narrative Summary</h2>
+      <p>Use this section as the ready-to-publish briefing. It covers the data hygiene, modeling choices, and model governance hooks.</p>
+      <ul class="summary-list">
+        <li><strong>Cleaning.</strong> Converted all <code>?</code> markers to missing values, filled numerics with column medians, and binarized the target to <em>present vs. absent</em> disease.</li>
+        <li><strong>Modeling.</strong> Trained a scaled logistic regression and a depth-limited decision tree using an 80/20 stratified split (random_state&nbsp;= 42).</li>
+        <li><strong>Result.</strong> Logistic regression outperformed, reducing false negatives to 2 on the holdout set while keeping precision above 0.80 for both classes.</li>
+        <li><strong>Story hook.</strong> Symptoms captured by chest pain type (<code>cp</code>) and the stress-test results (<code>thal</code>, <code>oldpeak</code>) dominate the risk gradient—prime material for an executive one-pager.</li>
+      </ul>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".1s">
+      <h2>2. Download the Analysis Files</h2>
+      <p>Grab the same data and reports that power the summary—useful for deeper dives, QA, or remixing in notebooks.</p>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <a href="assets/heart/cleveland_clean.csv" download>
+            <span class="resource-title">Cleaned Cleveland dataset</span>
+            <span class="resource-meta">CSV · 303 rows × 14 cols</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="assets/heart/model_performance.txt" download>
+            <span class="resource-title">Model performance report</span>
+            <span class="resource-meta">TXT · classification metrics</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="assets/heart/correlation_heatmap.png" download>
+            <span class="resource-title">Correlation heatmap</span>
+            <span class="resource-meta">PNG · training set view</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".15s">
+      <h2>3. Interactive Prototype Roadmap</h2>
+      <p>Ready to turn this into an on-site estimator? These steps outline the lift.</p>
+      <ol class="roadmap-list">
+        <li>Expose an API (FastAPI or Flask) that loads the serialized logistic regression pipeline and validates user inputs.</li>
+        <li>Design a lightweight intake form (age, sex, chest pain type, vitals, exercise response) that mirrors the model features.</li>
+        <li>Return risk probabilities with guardrails: flag inputs outside training ranges, display calibration notes, and surface the confusion matrix for context.</li>
+        <li>Add analytics tracking to gauge engagement and iterate on the question flow before promoting broadly.</li>
+      </ol>
+      <p class="roadmap-note">The trained pipeline lives in the working repo at <code>heart_disease/heart_disease_model.pkl</code>. Wire it into a microservice when you are ready to test the interaction.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+    </div>
+  </footer>
+</body>
+</html>
