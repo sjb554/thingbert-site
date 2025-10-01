@@ -22,7 +22,7 @@
         <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="market.html">Insights</a>
-        <a href="heart-health.html" class="active">Heart Health</a>
+        <a href="heart-health.html" class="active">Heart Health Lab</a>
         <a href="contact.html">Contact</a>
       </nav>
     </div>
@@ -34,6 +34,18 @@
       <h1>Cleveland Heart Disease Risk Prototype</h1>
       <p>This workspace walks through the full Thingbert pipeline: cleaning the UCI Cleveland dataset, benchmarking two classifiers, and sketching how an interactive risk check could live on the site.</p>
     </header>
+
+    <section class="insight-section" data-reveal>
+      <h2>Executive Overview</h2>
+      <p>A quick orientation for non-technical readers. The dataset follows 303 patients evaluated for heart disease at Cleveland Clinic and uses their vitals to flag likely disease.</p>
+      <ul class="overview-list">
+        <li><strong>Population.</strong> 303 patient records from the Cleveland Clinic Heart Disease study hosted by the UCI Machine Learning Repository.</li>
+        <li><strong>Process.</strong> Replaced '?' placeholders with missing values, filled gaps with column medians, and converted the outcome to a simple yes/no indicator.</li>
+        <li><strong>Outcome.</strong> Logistic regression caught 26 of 28 disease cases on the test set while keeping false alarms to 6; the decision tree missed 5 cases.</li>
+        <li><strong>How to read it.</strong> Use the cards below for headline numbers, the Feature Guide to decode inputs, and the downloads to inspect the full evaluation.</li>
+      </ul>
+      <div class="callout-note">Important: This is a historical modelling exercise meant for analytics practice. It is not medical advice or a diagnostic tool.</div>
+    </section>
 
     <section class="insight-section" data-reveal>
       <h2>Snapshot</h2>
@@ -132,18 +144,57 @@
     </section>
 
     <section class="insight-section" data-reveal data-reveal-delay=".05s">
-      <h2>1. Narrative Summary</h2>
-      <p>Use this section as the ready-to-publish briefing. It covers the data hygiene, modeling choices, and model governance hooks.</p>
+      <h2>1. Workflow Summary</h2>
+      <p>Use these talking points when you need to walk stakeholders through the approach.</p>
       <ul class="summary-list">
-        <li><strong>Cleaning.</strong> Converted all <code>?</code> markers to missing values, filled numerics with column medians, and binarized the target to <em>present vs. absent</em> disease.</li>
-        <li><strong>Modeling.</strong> Trained a scaled logistic regression and a depth-limited decision tree using an 80/20 stratified split (random_state&nbsp;= 42).</li>
-        <li><strong>Result.</strong> Logistic regression outperformed, reducing false negatives to 2 on the holdout set while keeping precision above 0.80 for both classes.</li>
-        <li><strong>Story hook.</strong> Symptoms captured by chest pain type (<code>cp</code>) and the stress-test results (<code>thal</code>, <code>oldpeak</code>) dominate the risk gradient—prime material for an executive one-pager.</li>
+        <li><strong>Data hygiene.</strong> Replaced <code>?</code> placeholders with missing values, filled numeric gaps with column medians, and recast the outcome to <em>disease present vs. not present</em>.</li>
+        <li><strong>Model line-up.</strong> Compared a standardised logistic regression (balanced class weights) with a shallow decision tree to keep the story interpretable.</li>
+        <li><strong>Performance in context.</strong> Logistic regression is the safer choice here&mdash;it missed only 2 disease cases on the test set, compared with 5 misses from the tree.</li>
+        <li><strong>What drives risk.</strong> Chest pain type (<code>cp</code>), thallium test result (<code>thal</code>), and exercise-induced ST depression (<code>oldpeak</code>) carry the strongest signals.</li>
+        <li><strong>Caveats.</strong> Sample size is modest and sourced from a single clinic; treat outputs as illustrative benchmarks, not clinical guidance.</li>
       </ul>
     </section>
 
-    <section class="insight-section" data-reveal data-reveal-delay=".1s">
-      <h2>2. Download the Analysis Files</h2>
+    <section class="insight-section" data-reveal data-reveal-delay=".09s">
+      <h2>2. Technical Appendix</h2>
+      <p>For analysts, here are the holdout metrics for each model. Precision and recall values are shown as <em>no disease / disease</em>.</p>
+      <div class="table-scroll">
+        <table class="model-metrics">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>Confusion matrix</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Logistic regression</td>
+              <td>0.869</td>
+              <td>0.93 / 0.81</td>
+              <td>0.82 / 0.93</td>
+              <td><code>[[27, 6], [2, 26]]</code></td>
+              <td>Standardised features, balanced class weights (liblinear solver).</td>
+            </tr>
+            <tr>
+              <td>Decision tree</td>
+              <td>0.770</td>
+              <td>0.83 / 0.72</td>
+              <td>0.73 / 0.82</td>
+              <td><code>[[24, 9], [5, 23]]</code></td>
+              <td>Depth 4, min leaf 5 with class balancing; higher variance, more missed cases.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="technical-note">Recreate the run by loading <code>heart_disease/heart_disease_model.pkl</code> with <code>joblib.load</code> and calling <code>model.predict</code> on the cleaned dataset.</p>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".12s">
+      <h2>3. Download the Analysis Files</h2>
       <p>Same artifacts we used internally—ideal for replicating the workflow or reviewing the numbers in detail.</p>
       <ul class="resource-list">
         <li class="resource-item">
@@ -167,8 +218,8 @@
       </ul>
     </section>
 
-    <section class="insight-section" data-reveal data-reveal-delay=".15s">
-      <h2>3. Interactive Prototype Roadmap</h2>
+    <section class="insight-section" data-reveal data-reveal-delay=".16s">
+      <h2>4. Interactive Prototype Roadmap</h2>
       <p>Ready to turn this into an on-site estimator? These steps outline the lift.</p>
       <ol class="roadmap-list">
         <li>Expose an API (FastAPI or Flask) that loads the serialized logistic regression pipeline and validates user inputs.</li>

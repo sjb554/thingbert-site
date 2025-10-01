@@ -978,3 +978,67 @@ main {
   font-size: 0.95rem;
   color: var(--muted);
 }
+
+
+.overview-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.overview-list li {
+  color: var(--muted);
+}
+
+.callout-note {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.model-metrics {
+  width: 100%;
+  margin: 1.5rem 0 0;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.model-metrics th,
+.model-metrics td {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.model-metrics thead th {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+
+.model-metrics code {
+  font-size: 0.9rem;
+}
+
+.technical-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted-alt);
+}
+
+.table-scroll {
+  margin: 1.5rem 0 0;
+  overflow-x: auto;
+}
+
+.table-scroll table {
+  min-width: 640px;
+}
