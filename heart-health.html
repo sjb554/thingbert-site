@@ -37,29 +37,97 @@
 
     <section class="insight-section" data-reveal>
       <h2>Snapshot</h2>
-      <p>We imputed missing fields, collapsed the target to presence vs. absence of heart disease, and evaluated a balanced logistic regression against a shallow decision tree. The logistic approach wins for this cohort.</p>
+      <p>We cleaned the Cleveland cohort, converted the target to a simple yes/no heart disease indicator, and stacked two baseline models. The scaled logistic regression pipeline produced the strongest balance of sensitivity and specificity.</p>
       <div class="metrics-grid">
         <div class="metric-card">
+          <span class="metric-label">Accuracy</span>
           <h3>0.869</h3>
-          <span>Test accuracy for logistic regression</span>
+          <p>Share of correct predictions on the 61-person test set.</p>
         </div>
         <div class="metric-card">
+          <span class="metric-label">Split Size</span>
           <h3>242 / 61</h3>
-          <span>Train / test split size</span>
+          <p>Training vs. testing rows after an 80/20 stratified split.</p>
         </div>
         <div class="metric-card">
-          <h3>93% / 81%</h3>
-          <span>Precision (no disease / disease)</span>
+          <span class="metric-label">Precision</span>
+          <h3>0.93 / 0.81</h3>
+          <p>When the model says "no disease" or "disease", this is how often it is right.</p>
         </div>
         <div class="metric-card">
-          <h3>82% / 93%</h3>
-          <span>Recall (no disease / disease)</span>
+          <span class="metric-label">Recall</span>
+          <h3>0.82 / 0.93</h3>
+          <p>How many real negatives/positives the model successfully captured.</p>
         </div>
       </div>
+      <p class="metric-explainer">Precision and recall are listed as <em>no disease / disease</em>. Logistic regression kept false negatives (missed disease) to just 2 cases, an improvement over the decision tree&rsquo;s 5.</p>
       <figure class="heatmap-card">
-        <img src="assets/heart/correlation_heatmap.png" alt="Correlation heatmap for the Cleveland heart disease features">
-        <figcaption>Correlation heatmap from the cleaned training set highlights the thal, cp, and oldpeak signals.</figcaption>
+        <img src="assets/heart/heart-disease-correlation.png" alt="Correlation heatmap for the Cleveland heart disease features">
+        <figcaption>Heatmap from the cleaned training set shows chest pain type (<code>cp</code>), thallium test result (<code>thal</code>), and ST depression (<code>oldpeak</code>) as leading indicators.</figcaption>
       </figure>
+    </section>
+
+    <section class="insight-section" data-reveal data-reveal-delay=".04s">
+      <h2>Feature Guide</h2>
+      <p>Each row is a person who received a heart disease work-up. Use this glossary to decode the variables and interpret the heatmap.</p>
+      <dl class="feature-glossary">
+        <div>
+          <dt>age</dt>
+          <dd>Age in years at the time of the visit.</dd>
+        </div>
+        <div>
+          <dt>sex</dt>
+          <dd>Biological sex (1 = male, 0 = female).</dd>
+        </div>
+        <div>
+          <dt>cp</dt>
+          <dd>Chest pain type (1 typical angina &rarr; 4 asymptomatic).</dd>
+        </div>
+        <div>
+          <dt>trestbps</dt>
+          <dd>Resting blood pressure (mm Hg).</dd>
+        </div>
+        <div>
+          <dt>chol</dt>
+          <dd>Serum cholesterol (mg/dL).</dd>
+        </div>
+        <div>
+          <dt>fbs</dt>
+          <dd>Fasting blood sugar &gt; 120 mg/dL (1 = true).</dd>
+        </div>
+        <div>
+          <dt>restecg</dt>
+          <dd>Resting electrocardiogram (0 = normal, 1 = ST-T abnormality, 2 = probable LV hypertrophy).</dd>
+        </div>
+        <div>
+          <dt>thalach</dt>
+          <dd>Maximum heart rate achieved during exercise.</dd>
+        </div>
+        <div>
+          <dt>exang</dt>
+          <dd>Exercise-induced angina (1 = yes).</dd>
+        </div>
+        <div>
+          <dt>oldpeak</dt>
+          <dd>ST depression induced by exercise relative to rest.</dd>
+        </div>
+        <div>
+          <dt>slope</dt>
+          <dd>Slope of the peak exercise ST segment (1 upsloping, 2 flat, 3 downsloping).</dd>
+        </div>
+        <div>
+          <dt>ca</dt>
+          <dd>Count of major vessels (0&ndash;3) shown via fluoroscopy.</dd>
+        </div>
+        <div>
+          <dt>thal</dt>
+          <dd>Thallium stress-test result (3 normal, 6 fixed defect, 7 reversible defect).</dd>
+        </div>
+        <div>
+          <dt>target</dt>
+          <dd>Thingbert label: 1 = heart disease present, 0 = no heart disease.</dd>
+        </div>
+      </dl>
     </section>
 
     <section class="insight-section" data-reveal data-reveal-delay=".05s">
@@ -75,24 +143,24 @@
 
     <section class="insight-section" data-reveal data-reveal-delay=".1s">
       <h2>2. Download the Analysis Files</h2>
-      <p>Grab the same data and reports that power the summary—useful for deeper dives, QA, or remixing in notebooks.</p>
+      <p>Same artifacts we used internally—ideal for replicating the workflow or reviewing the numbers in detail.</p>
       <ul class="resource-list">
         <li class="resource-item">
-          <a href="assets/heart/cleveland_clean.csv" download>
-            <span class="resource-title">Cleaned Cleveland dataset</span>
-            <span class="resource-meta">CSV · 303 rows × 14 cols</span>
+          <a href="assets/heart/heart-disease-clean.csv" download>
+            <span class="resource-title">Cleaned dataset (CSV)</span>
+            <span class="resource-meta">303 rows × 14 columns, target already binarized</span>
           </a>
         </li>
         <li class="resource-item">
-          <a href="assets/heart/model_performance.txt" download>
-            <span class="resource-title">Model performance report</span>
-            <span class="resource-meta">TXT · classification metrics</span>
+          <a href="assets/heart/heart-disease-model-report.txt" download>
+            <span class="resource-title">Model comparison notes (TXT)</span>
+            <span class="resource-meta">Accuracy, precision/recall, confusion matrices</span>
           </a>
         </li>
         <li class="resource-item">
-          <a href="assets/heart/correlation_heatmap.png" download>
-            <span class="resource-title">Correlation heatmap</span>
-            <span class="resource-meta">PNG · training set view</span>
+          <a href="assets/heart/heart-disease-correlation.png" download>
+            <span class="resource-title">Correlation heatmap (PNG)</span>
+            <span class="resource-meta">Visual guide to feature relationships</span>
           </a>
         </li>
       </ul>

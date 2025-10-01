@@ -926,3 +926,55 @@ main {
   border-radius: var(--radius-md);
   padding: 0.9rem 1.2rem;
 }
+
+
+.metric-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-alt);
+  margin-bottom: 0.6rem;
+}
+
+.metric-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.metric-explainer {
+  margin-top: -0.2rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.feature-glossary {
+  margin: 1.5rem 0 0;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.feature-glossary div {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.2rem;
+  box-shadow: var(--shadow-outline);
+}
+
+.feature-glossary dt {
+  margin: 0;
+  font-weight: 600;
+  color: var(--foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+}
+
+.feature-glossary dd {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
