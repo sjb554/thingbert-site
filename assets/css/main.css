@@ -1129,3 +1129,47 @@ main {
 .table-scroll table {
   min-width: 640px;
 }
+
+.price-check-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.price-check-card h2 {
+  margin-top: 0;
+}
+
+.price-check-description {
+  margin: 8px 0 24px;
+  color: var(--muted);
+}
+
+.price-check-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.price-check-form .button {
+  justify-self: start;
+}
+
+.field-hint {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted-alt);
+}
+
+@media (max-width: 640px) {
+  .price-check-card {
+    padding: 24px;
+  }
+
+  .price-check-form {
+    gap: 1.25rem;
+  }
+}
