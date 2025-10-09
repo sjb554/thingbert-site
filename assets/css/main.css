@@ -1242,3 +1242,47 @@ main {
     padding: 18px;
   }
 }
+
+
+.price-check-pricing {
+  margin-top: 24px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding-top: 20px;
+}
+
+.price-check-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 0.96rem;
+}
+
+.price-check-table th,
+.price-check-table td {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.price-check-table thead {
+  background: rgba(15, 23, 42, 0.05);
+  font-weight: 600;
+}
+
+.price-check-table tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.035);
+}
+
+.price-check-recommendation {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+@media (max-width: 640px) {
+  .price-check-table th,
+  .price-check-table td {
+    padding: 10px 12px;
+  }
+}

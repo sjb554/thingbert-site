@@ -361,9 +361,16 @@
   const clearFeedback = (elements) => {
     toggleHidden(elements.feedback, true);
     toggleHidden(elements.error, true);
+    toggleHidden(elements.pricingContainer, true);
     setStatus(elements.status, '');
     if (elements.meta) {
       elements.meta.innerHTML = '';
+    }
+    if (elements.pricingTable) {
+      elements.pricingTable.innerHTML = '';
+    }
+    if (elements.recommendation) {
+      elements.recommendation.textContent = '';
     }
   };
 
@@ -432,6 +439,148 @@
     toggleHidden(elements.feedback, true);
   };
 
+  const combineLocalityCode = (mac, localityNumber) => {
+    if (!mac) {
+      return null;
+    }
+    if (!localityNumber && localityNumber !== 0) {
+      return mac;
+    }
+    const digits = String(localityNumber).trim();
+    if (digits.length > 3) {
+      return digits;
+    }
+    return `${mac}${digits.padStart(2, '0')}`;
+  };
+
+  const parseAmount = (value) => {
+    if (value == null || value === '') {
+      return null;
+    }
+    const num = Number(String(value).replace(/[^0-9.\-]/g, ''));
+    return Number.isFinite(num) ? num : null;
+  };
+
+  const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+  const formatCurrency = (amount) => {
+    const num = parseAmount(amount);
+    return num == null ? '--' : currencyFormatter.format(num);
+  };
+
+  const formatPercent = (value) => {
+    if (value == null || Number.isNaN(value)) {
+      return '';
+    }
+    const rounded = Math.round(value * 10) / 10;
+    if (Number.isNaN(rounded)) {
+      return '';
+    }
+    const text = rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(1);
+    return `${text}%`;
+  };
+
+  const renderPricingError = (elements, message) => {
+    if (elements.pricingContainer) {
+      toggleHidden(elements.pricingContainer, false);
+    }
+    if (elements.pricingTable) {
+      elements.pricingTable.innerHTML = '';
+    }
+    if (elements.recommendation) {
+      elements.recommendation.textContent = message;
+    }
+  };
+
+  const renderPricing = (elements, localityResult, pricingResult, formData) => {
+    if (!elements.pricingContainer || !elements.pricingTable || !pricingResult) {
+      return;
+    }
+
+    const allRows = Array.isArray(pricingResult.rows) ? pricingResult.rows : [];
+    const localityCode = combineLocalityCode(localityResult.mac, localityResult.localityNumber);
+    let targetRow = pricingResult.matchingRow || (localityCode ? allRows.find((row) => row.locality === localityCode) : null);
+    if (!targetRow && allRows.length) {
+      targetRow = allRows[0];
+    }
+
+    if (!targetRow) {
+      renderPricingError(elements, 'Medicare pricing data is not available for this code.');
+      return;
+    }
+
+    let allowed = parseAmount(targetRow.nonFacilityPrice);
+    if (allowed == null || allowed === 0) {
+      allowed = parseAmount(targetRow.facilityPrice);
+    }
+
+    if (allowed == null || allowed === 0) {
+      renderPricingError(elements, 'Medicare pricing data is not available for this code.');
+      return;
+    }
+
+    const localityName = targetRow.localityDescription || localityResult.localityLabel || 'your locality';
+    const billAmount = parseAmount(formData?.get('current_bill'));
+    const allowedClaimAmount = parseAmount(formData?.get('allowed_amount'));
+
+    const rows = [];
+    rows.push({
+      label: `Medicare allowed amount (${localityName})`,
+      amount: formatCurrency(allowed),
+      percent: '100%',
+    });
+
+    const calcPercent = (value) => {
+      if (value == null) {
+        return null;
+      }
+      return (value / allowed) * 100;
+    };
+
+    if (billAmount != null) {
+      rows.push({
+        label: 'Your bill',
+        amount: formatCurrency(billAmount),
+        percent: formatPercent(calcPercent(billAmount)),
+      });
+    }
+
+    if (allowedClaimAmount != null) {
+      rows.push({
+        label: 'Allowed amount on claim',
+        amount: formatCurrency(allowedClaimAmount),
+        percent: formatPercent(calcPercent(allowedClaimAmount)),
+      });
+    }
+
+    const tableHeader = '<thead><tr><th>Item</th><th>Amount</th><th>% of Medicare</th></tr></thead>';
+    const tableBody = rows
+      .map((row) => `<tr><td>${row.label}</td><td>${row.amount}</td><td>${row.percent || ''}</td></tr>`)
+      .join('');
+    elements.pricingTable.innerHTML = `${tableHeader}<tbody>${tableBody}</tbody>`;
+    toggleHidden(elements.pricingContainer, false);
+
+    let recommendation;
+    if (billAmount != null) {
+      const pct = formatPercent(calcPercent(billAmount));
+      recommendation = pct
+        ? `Your bill is ${pct} of Medicare for this code in ${localityName}.`
+        : `Your bill for this code in ${localityName} could not be compared to Medicare.`;
+    } else if (allowedClaimAmount != null) {
+      const pct = formatPercent(calcPercent(allowedClaimAmount));
+      recommendation = pct
+        ? `The plan allowed amount is ${pct} of Medicare for this code in ${localityName}.`
+        : `The plan allowed amount for this code in ${localityName} could not be compared to Medicare.`;
+    } else {
+      recommendation = `The Medicare allowed amount for this code in ${localityName} is ${formatCurrency(allowed)}.`;
+    }
+
+    if (elements.recommendation) {
+      elements.recommendation.textContent = recommendation;
+    }
+  };
+
+
   const initPriceCheckForm = () => {
     const form = q('price-check-form');
     if (!form) {
@@ -445,6 +594,9 @@
       feedbackTitle: q('price-check-feedback-title'),
       feedbackBody: q('price-check-feedback-body'),
       meta: q('price-check-feedback-meta'),
+      pricingContainer: q('price-check-pricing'),
+      pricingTable: q('price-check-pricing-table'),
+      recommendation: q('price-check-recommendation'),
       error: q('price-check-error'),
     };
 
@@ -455,14 +607,50 @@
         renderError(elements, 'Please provide a ZIP code, county, or state.');
         return;
       }
+
+      const formData = new FormData(form);
+      const hcpcsCode = (formData.get('hcpcs_code') || '').toString().trim();
       setStatus(elements.status, 'Looking up CMS locality...');
       setButtonBusy(submitButton, true);
       try {
-        const result = await resolveLocality(locationInput.value);
-        if (result.ok) {
-          renderSuccess(elements, result);
-        } else {
-          renderError(elements, result.message);
+        const localityResult = await resolveLocality(locationInput.value);
+        if (!localityResult.ok) {
+          renderError(elements, localityResult.message);
+          return;
+        }
+
+        renderSuccess(elements, localityResult);
+
+        if (!hcpcsCode) {
+          renderPricingError(elements, 'Enter an HCPCS code to see Medicare pricing.');
+          return;
+        }
+
+        const fetchFeeSchedule = window.ThingbertPriceCheck && window.ThingbertPriceCheck.fetchFeeSchedule;
+        if (typeof fetchFeeSchedule !== 'function') {
+          renderPricingError(elements, 'Unable to load Medicare pricing client. Refresh the page and try again.');
+          return;
+        }
+
+        setStatus(elements.status, 'Retrieving Medicare allowed amount...');
+        try {
+          const pricingResult = await fetchFeeSchedule({
+            hcpcsCode,
+            mac: localityResult.mac,
+            localityNumber: localityResult.localityNumber,
+            includeAllMacs: true,
+          });
+
+          if (!pricingResult || !Array.isArray(pricingResult.rows) || !pricingResult.rows.length) {
+            renderPricingError(elements, 'No Medicare pricing found for this code.');
+          } else {
+            renderPricing(elements, localityResult, pricingResult, formData);
+          }
+        } catch (pricingError) {
+          console.error('Price check Medicare lookup failed', pricingError);
+          renderPricingError(elements, 'Unable to retrieve Medicare pricing right now. Please try again later.');
+        } finally {
+          setStatus(elements.status, '');
         }
       } catch (error) {
         console.error('Price check locality lookup failed', error);
