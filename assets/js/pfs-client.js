@@ -1,10 +1,14 @@
 (function () {
   const PFS_API_BASE = 'https://pfs.data.cms.gov/api/1';
+  const PFS_PROXY_BASE = typeof window !== 'undefined' && window.ThingbertPriceCheckProxy ? String(window.ThingbertPriceCheckProxy).replace(/\/$/, '') : '';
+  const useProxy = Boolean(PFS_PROXY_BASE);
   let catalogPromise;
 
   const fetchPfsCatalog = () => {
     if (!catalogPromise) {
-      const catalogUrl = `${PFS_API_BASE}/metastore/schemas/dataset/items?show-reference-ids`;
+      const catalogUrl = useProxy
+        ? `${PFS_PROXY_BASE}/catalog`
+        : `${PFS_API_BASE}/metastore/schemas/dataset/items?show-reference-ids`;
       catalogPromise = fetch(catalogUrl, {
         headers: { Accept: 'application/json' },
         credentials: 'omit',
@@ -294,7 +298,12 @@
   };
 
   const postDatastoreQuery = async (searchLabel, body) => {
-    const url = `${PFS_API_BASE}/datastore/query?search=${encodeURIComponent(searchLabel)}&redirect=false`;
+    const baseUrl = useProxy
+      ? `${PFS_PROXY_BASE}/pricing`
+      : `${PFS_API_BASE}/datastore/query`;
+    const url = useProxy
+      ? `${baseUrl}?search=${encodeURIComponent(searchLabel)}`
+      : `${baseUrl}?search=${encodeURIComponent(searchLabel)}&redirect=false`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -302,6 +311,7 @@
         Accept: 'application/json',
       },
       body: JSON.stringify(body),
+      credentials: 'omit',
     });
     if (!response.ok) {
       throw new Error(`PFS query failed (${response.status})`);

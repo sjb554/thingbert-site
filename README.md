@@ -51,3 +51,13 @@ GitHub Pages deploys automatically from the `main` branch using the custom domai
 - `Refine navigation copy and metadata descriptions`
 - `Organize assets into css, js, data, docs, img, models folders`
 - `Polish README with project overview and contribution notes`
+
+## CMS Pricing Proxy
+
+The browser cannot call the CMS Physician Fee Schedule API directly because of CORS restrictions. Deploy the Cloudflare Worker in `proxy/cloudflare-worker.js` (or any equivalent proxy) and define the endpoint before the pricing scripts load:
+
+```html
+<script>window.ThingbertPriceCheckProxy = 'https://your-proxy.workers.dev';</script>
+```
+
+Without the proxy the Medicare comparison table will fall back to an error message. See `proxy/README.md` for deployment steps.
