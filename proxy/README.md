@@ -24,7 +24,7 @@ Before `assets/js/pfs-client.js` loads, set the global proxy base URL:
 </script>
 ```
 
-Place the snippet in `healthcare-price-check.html` (or a layout include)
+Place the snippet in `compare-your-price-to-medicare.html` (or a layout include)
 *before* the `<script src="assets/js/pfs-client.js" ...>` tag. The helper will
 fallback to direct CMS calls if the global isn’t defined.
 
@@ -41,3 +41,4 @@ Render) will work. The proxy just needs to:
 1. Accept POST bodies and GET requests.
 2. Forward them to `https://pfs.data.cms.gov/api/1/...`.
 3. Return the response with `Access-Control-Allow-Origin: *` (at minimum).
+
