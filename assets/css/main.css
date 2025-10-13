@@ -487,6 +487,39 @@ main {
 .page-section {
   margin-bottom: 48px;
 }
+.page-disclaimer {
+  margin-bottom: 36px;
+}
+
+.disclaimer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-card);
+}
+
+.disclaimer-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+
+.disclaimer-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.disclaimer-card p + p {
+  margin-top: 10px;
+}
+
+@media (max-width: 720px) {
+  .disclaimer-card {
+    padding: 20px 22px;
+  }
+}
 
 .list-grid {
   list-style: none;
@@ -1286,3 +1319,4 @@ main {
     padding: 10px 12px;
   }
 }
+
