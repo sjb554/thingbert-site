@@ -1,4 +1,4 @@
-"""Utility script that refreshes the CMS locality mapping assets used by the Healthcare Price Check workflow.
+"""Utility script that refreshes the CMS locality mapping assets used by the Compare Your Price to Medicare workflow.
 
 Prerequisites: pip install --user beautifulsoup4
 """
