@@ -1163,6 +1163,33 @@ main {
   min-width: 640px;
 }
 
+.price-check-code {
+  margin: 22px 0 18px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.price-check-code__title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+}
+
+.price-check-code__description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 720px) {
+  .price-check-code {
+    padding: 18px 20px;
+  }
+}
+
 .price-check-card {
   background: var(--surface);
   border: 1px solid var(--border);

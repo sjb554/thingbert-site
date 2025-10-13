@@ -331,6 +331,39 @@
     el.classList[shouldHide ? 'add' : 'remove']('hidden');
   };
 
+  const clearCodeDetails = (elements) => {
+    if (!elements || !elements.codeContainer) {
+      return;
+    }
+    toggleHidden(elements.codeContainer, true);
+    if (elements.codeTitle) {
+      elements.codeTitle.textContent = '';
+    }
+    if (elements.codeDescription) {
+      elements.codeDescription.textContent = '';
+    }
+  };
+
+  const setCodeDetails = (elements, row, fallbackCode) => {
+    if (!elements || !elements.codeContainer || !elements.codeTitle || !elements.codeDescription) {
+      return;
+    }
+    if (!row) {
+      clearCodeDetails(elements);
+      return;
+    }
+    const code = (row.hcpc || fallbackCode || '').toString().trim().toUpperCase();
+    const modifier = (row.modifier || '').toString().trim().toUpperCase();
+    let label = 'HCPCS Code';
+    if (code) {
+      label = 'HCPCS ' + code + (modifier ? '-' + modifier : '');
+    }
+    elements.codeTitle.textContent = label;
+    const description = row.description && row.description.trim() ? row.description.trim() : null;
+    elements.codeDescription.textContent = description || 'CMS did not provide a short description for this code.';
+    toggleHidden(elements.codeContainer, false);
+  };
+
   const setStatus = (el, message) => {
     if (!el) return;
     if (message) {
@@ -360,6 +393,7 @@
 
   const clearFeedback = (elements) => {
     toggleHidden(elements.feedback, true);
+    clearCodeDetails(elements);
     toggleHidden(elements.error, true);
     toggleHidden(elements.pricingContainer, true);
     setStatus(elements.status, '');
@@ -437,6 +471,7 @@
     elements.error.textContent = message || 'Unable to map the location. Please adjust and try again.';
     toggleHidden(elements.error, false);
     toggleHidden(elements.feedback, true);
+    clearCodeDetails(elements);
   };
 
   const combineLocalityCode = (mac, localityNumber) => {
@@ -481,6 +516,7 @@
   };
 
   const renderPricingError = (elements, message) => {
+    clearCodeDetails(elements);
     if (elements.pricingContainer) {
       toggleHidden(elements.pricingContainer, false);
     }
@@ -492,7 +528,7 @@
     }
   };
 
-  const renderPricing = (elements, localityResult, pricingResult, formData) => {
+  const renderPricing = (elements, localityResult, pricingResult, formData, hcpcsCode) => {
     if (!elements.pricingContainer || !elements.pricingTable || !pricingResult) {
       return;
     }
@@ -508,6 +544,8 @@
       renderPricingError(elements, 'Medicare pricing data is not available for this code.');
       return;
     }
+
+    setCodeDetails(elements, targetRow, hcpcsCode);
 
     let allowed = parseAmount(targetRow.nonFacilityPrice);
     if (allowed == null || allowed === 0) {
@@ -580,7 +618,6 @@
     }
   };
 
-
   const initPriceCheckForm = () => {
     const form = q('price-check-form');
     if (!form) {
@@ -594,6 +631,9 @@
       feedbackTitle: q('price-check-feedback-title'),
       feedbackBody: q('price-check-feedback-body'),
       meta: q('price-check-feedback-meta'),
+      codeContainer: q('price-check-code'),
+      codeTitle: q('price-check-code-title'),
+      codeDescription: q('price-check-code-description'),
       pricingContainer: q('price-check-pricing'),
       pricingTable: q('price-check-pricing-table'),
       recommendation: q('price-check-recommendation'),
@@ -644,7 +684,7 @@
           if (!pricingResult || !Array.isArray(pricingResult.rows) || !pricingResult.rows.length) {
             renderPricingError(elements, 'No Medicare pricing found for this code.');
           } else {
-            renderPricing(elements, localityResult, pricingResult, formData);
+            renderPricing(elements, localityResult, pricingResult, formData, hcpcsCode);
           }
         } catch (pricingError) {
           console.error('Price check Medicare lookup failed', pricingError);
@@ -673,3 +713,4 @@
   window.ThingbertPriceCheck._loadLocalityDataset = loadDataset;
   window.ThingbertPriceCheck._initForm = initPriceCheckForm;
 })();
+
