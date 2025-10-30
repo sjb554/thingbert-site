@@ -51,8 +51,12 @@
       </div>
     </section>
 
-    <section class="legacy-embed" data-reveal>
-      <iframe class="legacy-embed__frame" src="raw/predictions.html" title="NFL Predictions &amp; Edge Board" loading="lazy"></iframe>
+    <section class="nfl-board" data-reveal>
+      <div class="container">
+        <div class="nfl-board__content" id="nfl-board">
+          <p class="nfl-board__loading">Loading this week's board…</p>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -61,5 +65,49 @@
       <small>&copy; 2025 Thingbert. All rights reserved.</small>
     </div>
   </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const target = document.querySelector('#nfl-board');
+      if (!target) {
+        return;
+      }
+
+      const removeExistingStyles = () => {
+        document.querySelectorAll('style[data-nfl-report]').forEach((node) => node.remove());
+      };
+
+      fetch('raw/predictions.html', { cache: 'no-store' })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          return response.text();
+        })
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const section = doc.querySelector('section');
+          if (!section) {
+            throw new Error('Report markup missing');
+          }
+
+          const style = doc.querySelector('style');
+          if (style) {
+            removeExistingStyles();
+            const copy = style.cloneNode(true);
+            copy.dataset.nflReport = 'true';
+            document.head.appendChild(copy);
+          }
+
+          target.innerHTML = '';
+          target.appendChild(section);
+        })
+        .catch((error) => {
+          console.error('Failed to load NFL report', error);
+          target.innerHTML = '<p class="nfl-board__error">Unable to load the latest board. <a href="raw/predictions.html">Open the original report</a>.</p>';
+        });
+    });
+  </script>
 </body>
 </html>
