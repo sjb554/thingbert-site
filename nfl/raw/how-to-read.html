@@ -1,8 +1,9 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-<meta charset="UTF-8">
+<head><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta charset="utf-8"/>
 <title>Recommendations Table — Infographic Guide</title>
 <style>
   body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color:#111; }
@@ -23,64 +24,57 @@
 </style>
 </head>
 <body>
-
 <h1>📊 How to Read the Recommendations Table</h1>
-
 <div class="card">
-  <strong>What you’re looking at:</strong> each row is a bet the model likes. Use <em>EV%</em> to judge value and <em>Model Prob</em> to judge confidence.
+<strong>What you’re looking at:</strong> each row is a bet the model likes. Use <em>EV%</em> to judge value and <em>Model Prob</em> to judge confidence.
 </div>
-
 <h2>Field Definitions</h2>
 <table>
-  <tr><th>Field</th><th>Meaning</th><th>How to Use It</th></tr>
-  <tr><td><strong>Game</strong></td><td>Matchup (home team listed second).</td><td>Scan for all bets tied to a single game.</td></tr>
-  <tr><td><strong>Market</strong></td><td>ML (moneyline), Spread, or Total.</td><td>ML = who wins; Spread = margin; Total = combined points.</td></tr>
-  <tr><td><strong>Side</strong></td><td>Bet direction.</td><td>“Home/Away” for ML/Spread, “Over/Under” for Total.</td></tr>
-  <tr><td><strong>Model Prob</strong></td><td>Model’s probability that the bet wins.</td><td>≥60% is typically strong.</td></tr>
-  <tr><td><strong>Book Odds</strong></td><td>Sportsbook price.</td><td>Determines payout; shown in American odds.</td></tr>
-  <tr><td><strong>Implied Prob</strong></td><td>Probability implied by the book odds.</td>
-      <td>
+<tr><th>Field</th><th>Meaning</th><th>How to Use It</th></tr>
+<tr><td><strong>Game</strong></td><td>Matchup (home team listed second).</td><td>Scan for all bets tied to a single game.</td></tr>
+<tr><td><strong>Market</strong></td><td>ML (moneyline), Spread, or Total.</td><td>ML = who wins; Spread = margin; Total = combined points.</td></tr>
+<tr><td><strong>Side</strong></td><td>Bet direction.</td><td>“Home/Away” for ML/Spread, “Over/Under” for Total.</td></tr>
+<tr><td><strong>Model Prob</strong></td><td>Model’s probability that the bet wins.</td><td>≥60% is typically strong.</td></tr>
+<tr><td><strong>Book Odds</strong></td><td>Sportsbook price.</td><td>Determines payout; shown in American odds.</td></tr>
+<tr><td><strong>Implied Prob</strong></td><td>Probability implied by the book odds.</td>
+<td>
         For American odds: <code>+X → 100/(X+100)</code>, <code>-X → |X|/(|X|+100)</code>
-      </td></tr>
-  <tr><td><strong>Edge %</strong></td><td>Model vs. market gap.</td><td><code>Edge = ModelProb − ImpliedProb</code> (percentage points).</td></tr>
-  <tr><td><strong>EV %</strong></td><td>Expected return per dollar staked.</td>
-      <td>
+</td></tr>
+<tr><td><strong>Edge %</strong></td><td>Model vs. market gap.</td><td><code>Edge = ModelProb − ImpliedProb</code> (percentage points).</td></tr>
+<tr><td><strong>EV %</strong></td><td>Expected return per dollar staked.</td>
+<td>
         Convert American odds to decimal <code>d</code>: <code>A&gt;0 → d = 1 + A/100</code>, <code>A&lt;0 → d = 1 + 100/|A|</code><br/>
         Then <code>EV% = 100 × (ModelProb × d − 1)</code>.
       </td></tr>
-  <tr><td><strong>Stake $</strong></td><td>Suggested bet size (Kelly/fractional).</td><td>Use as a cap; don’t exceed bankroll limits.</td></tr>
-  <tr><td><strong>Line</strong></td><td>Spread or total being bet.</td><td>Ex: <code>-3.5</code>, <code>+2.5</code>, <code>o46.5</code>, <code>u41</code>.</td></tr>
-  <tr><td><strong>Book</strong></td><td>Which sportsbook provided the price.</td><td>Where to place the bet to match the edge.</td></tr>
+<tr><td><strong>Stake $</strong></td><td>Suggested bet size (Kelly/fractional).</td><td>Use as a cap; don’t exceed bankroll limits.</td></tr>
+<tr><td><strong>Line</strong></td><td>Spread or total being bet.</td><td>Ex: <code>-3.5</code>, <code>+2.5</code>, <code>o46.5</code>, <code>u41</code>.</td></tr>
+<tr><td><strong>Book</strong></td><td>Which sportsbook provided the price.</td><td>Where to place the bet to match the edge.</td></tr>
 </table>
-
 <h2>Quick Interpretation</h2>
 <table>
-  <tr><th>Signal</th><th>What It Means</th><th>Action</th></tr>
-  <tr><td><span class="pill good">High EV (≥5%) + High Prob (≥60%)</span></td><td>Strong value and confidence.</td><td><strong>Bet-worthy</strong> if lines are current.</td></tr>
-  <tr><td><span class="pill mid">Moderate EV (2–4%)</span></td><td>Edge exists but smaller.</td><td>Consider when confidence ≥55%.</td></tr>
-  <tr><td><span class="pill low">Low EV (&lt;2%)</span></td><td>Likely neutral after juice.</td><td>Monitor for better price.</td></tr>
-  <tr><td><span class="pill bad">Negative EV</span></td><td>Market priced better than model.</td><td>Skip or fade.</td></tr>
+<tr><th>Signal</th><th>What It Means</th><th>Action</th></tr>
+<tr><td><span class="pill good">High EV (≥5%) + High Prob (≥60%)</span></td><td>Strong value and confidence.</td><td><strong>Bet-worthy</strong> if lines are current.</td></tr>
+<tr><td><span class="pill mid">Moderate EV (2–4%)</span></td><td>Edge exists but smaller.</td><td>Consider when confidence ≥55%.</td></tr>
+<tr><td><span class="pill low">Low EV (&lt;2%)</span></td><td>Likely neutral after juice.</td><td>Monitor for better price.</td></tr>
+<tr><td><span class="pill bad">Negative EV</span></td><td>Market priced better than model.</td><td>Skip or fade.</td></tr>
 </table>
-
 <h2>Worked Example</h2>
 <div class="grid">
-  <div class="card">
-    <strong>Inputs</strong><br/>
-    Market: ML &nbsp;|&nbsp; Odds: <code>+115</code><br/>
+<div class="card">
+<strong>Inputs</strong><br/>
+    Market: ML  |  Odds: <code>+115</code><br/>
     Model Prob: <code>0.58</code> (58%)<br/>
     Implied Prob: <code>100/(115+100)=0.465</code> (46.5%)<br/>
-  </div>
-  <div class="card">
-    <strong>Outputs</strong><br/>
+</div>
+<div class="card">
+<strong>Outputs</strong><br/>
     Edge %: <code>0.58 − 0.465 = +0.115</code> <em>(+11.5 pts)</em><br/>
     Decimal odds: <code>1 + 115/100 = 2.15</code><br/>
     EV %: <code>(0.58 × 2.15 − 1) × 100 = +24.7%</code><br/>
-  </div>
 </div>
-
+</div>
 <div class="card">
-  <strong>Rule of Thumb:</strong> prioritize rows with <em>both</em> higher EV% and strong Model Prob. Use Stake $ as an upper bound, not a mandate.
+<strong>Rule of Thumb:</strong> prioritize rows with <em>both</em> higher EV% and strong Model Prob. Use Stake $ as an upper bound, not a mandate.
 </div>
-
 </body>
 </html>

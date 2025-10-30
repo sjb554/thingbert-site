@@ -1,8 +1,9 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-<meta charset="UTF-8">
+<head><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta charset="utf-8"/>
 <title>NFL Predictive Algorithm Exhibit</title>
 <style>
   body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; background-color: #ffffff; }
@@ -17,9 +18,7 @@
 </style>
 </head>
 <body>
-
 <h1>🏈 Exhibit: How the NFL Predictive Algorithm Works</h1>
-
 <div class="section">
 <h2>Step-by-Step Summary</h2>
 <table>
@@ -29,10 +28,9 @@
 <tr><td>3. Model Prediction</td><td>Predict continuous expected points per team</td><td>Home: 24.3, Away: 19.8</td></tr>
 <tr><td>4. Post-Processing</td><td>Round to realistic NFL scores</td><td>→ 24–20</td></tr>
 <tr><td>5. EV Computation</td><td>Compare model vs. book probabilities</td><td>+3.8% expected edge</td></tr>
-<tr><td>6. Output</td><td>Display in report with odds & predicted score</td><td>"Lines Over the Next 7 Days" table</td></tr>
+<tr><td>6. Output</td><td>Display in report with odds &amp; predicted score</td><td>"Lines Over the Next 7 Days" table</td></tr>
 </table>
 </div>
-
 <div class="section">
 <h2>Feature Engineering — Deeper View</h2>
 <table>
@@ -44,7 +42,6 @@
 <tr><td>5. Composite features</td><td>Combine all signals: efficiency, rest, travel, home-field, weather, etc.</td><td>X = [net_strength, rest_days, dome_flag]</td></tr>
 </table>
 </div>
-
 <div class="section">
 <h2>Expected Value (EV) Computation — Breakdown</h2>
 <table>
@@ -55,7 +52,6 @@
 <tr><td>Filters</td><td>Retain bets only if EV ≥ threshold.</td><td>1% for spreads, 2% for ML/totals</td></tr>
 </table>
 </div>
-
 <div class="section">
 <h2>Internal Mechanics</h2>
 <ul>
@@ -65,7 +61,6 @@
 <li>Displays <strong>quantized scores</strong> (0, 3, 7, 10, 14, etc.) for human readability.</li>
 </ul>
 </div>
-
 <div class="section highlight">
 <h2>Future Enhancement</h2>
 <p>Integrate realistic scoring directly into training:</p>
@@ -74,6 +69,5 @@
 <li>Alternatively, simulate outcomes from a <strong>Poisson-style scoring distribution</strong> aligned with actual NFL point structures.</li>
 </ul>
 </div>
-
 </body>
 </html>
