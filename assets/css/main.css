@@ -1419,6 +1419,39 @@ main {
 }
 
 /* NFL hub + article styling */
+.nfl-landing {
+  padding: 48px 0 80px;
+}
+
+.nfl-landing__intro {
+  padding-bottom: 32px;
+}
+
+.nfl-landing__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.nfl-landing__actions .button {
+  min-width: 200px;
+}
+
+@media (max-width: 640px) {
+  .nfl-landing {
+    padding: 32px 0 64px;
+  }
+
+  .nfl-landing__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nfl-landing__actions .button {
+    width: 100%;
+  }
+}
+
 .nfl-page {
   padding-bottom: 80px;
 }
@@ -1620,4 +1653,3 @@ main {
 .nfl-table {
   min-width: 840px;
 }
-

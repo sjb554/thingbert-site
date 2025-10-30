@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Explore Thingbert's NFL model hub with weekly predictions, methodology notes, and guidance on how to use the board."/>
-  <title>Thingbert — NFL Model Hub</title>
+  <meta name="description" content="Review Thingbert's weekly NFL recommendations and expected value edges with quick links to the explainer and methodology.">
+  <title>Thingbert - NFL Predictions</title>
   <link rel="stylesheet" href="../assets/css/main.css?v=20251008">
   <script src="../assets/js/site.js?v=20251008" defer></script>
 </head>
@@ -26,7 +26,7 @@
         <div class="nav-group">
           <a href="../nfl/index.html" class="nav-group__trigger active">NFL</a>
           <div class="nav-group__menu" aria-label="NFL submenu">
-            <a href="../nfl/predictions.html">Predictions</a>
+            <a href="../nfl/index.html" class="active" aria-current="page">Predictions</a>
             <a href="../nfl/how-to-read.html">How to Read the Board</a>
             <a href="../nfl/algorithm.html">Model Methodology</a>
           </div>
@@ -37,47 +37,22 @@
     </div>
   </header>
 
-  <main class="container page-content nfl-page">
-    <header class="page-header" data-reveal>
-      <h1>NFL Model Hub</h1>
-      <p>The weekly board packages the model's best lines, how to read them, and the math behind the edge. Use the cards below to jump straight to the view you need.</p>
-    </header>
-
-    <section class="page-section" data-reveal>
-      <div class="card-grid nfl-card-grid">
-        <article class="info-card">
-          <span class="tag">Weekly slate</span>
-          <h2>Predictions & Betting Edge</h2>
-          <p>See the latest seven-day slate with moneyline, spread, and total plays ranked by expected value. Each row includes the model score and best book price.</p>
-          <a class="button" href="predictions.html">Open the board</a>
-          <p class="card-meta">Updated every Tuesday morning during the season.</p>
-        </article>
-        <article class="info-card" data-reveal data-reveal-delay=".08s">
-          <span class="tag">Cheat sheet</span>
-          <h2>How to Read the Table</h2>
-          <p>New to EV models? This quick visual explains every column, how to interpret edge %, and when to scale your stake.</p>
-          <a class="button" href="how-to-read.html">Skim the explainer</a>
-          <p class="card-meta">Built for fast onboarding&mdash;share with friends before kickoff.</p>
-        </article>
-        <article class="info-card" data-reveal data-reveal-delay=".16s">
-          <span class="tag">Transparency</span>
-          <h2>How the Algorithm Works</h2>
-          <p>Walk through the feature pipeline, score translation, and EV math that powers the weekly recommendations.</p>
-          <a class="button" href="algorithm.html">Review the methodology</a>
-          <p class="card-meta">Includes future enhancements and guardrails.</p>
-        </article>
+  <main class="nfl-landing">
+    <section class="nfl-landing__intro">
+      <div class="container">
+        <header class="page-header" data-reveal>
+          <h1>NFL Predictions &amp; Edge Board</h1>
+          <p>Weekly recommendations straight from the model. Scan the max EV plays first, then dive into the full slate.</p>
+        </header>
+        <div class="nfl-landing__actions" data-reveal data-reveal-delay=".08s">
+          <a class="button" href="how-to-read.html">How to Read the Board</a>
+          <a class="button button-secondary" href="algorithm.html">Model Methodology</a>
+        </div>
       </div>
     </section>
 
-    <section class="page-section nfl-context" data-reveal>
-      <div class="nfl-context__panel">
-        <h2>Season cadence</h2>
-        <p>The board refreshes once per week after Monday Night Football. Edges are sized for sharp books; always confirm lines before placing any ticket.</p>
-      </div>
-      <div class="nfl-context__panel">
-        <h2>Model promise</h2>
-        <p>We publish the full methodology and interpretation guide alongside the picks. That way you can stress test the logic, compare to your priors, and decide how to deploy it.</p>
-      </div>
+    <section class="legacy-embed" data-reveal>
+      <iframe class="legacy-embed__frame" src="raw/predictions.html" title="NFL Predictions &amp; Edge Board" loading="lazy"></iframe>
     </section>
   </main>
 
