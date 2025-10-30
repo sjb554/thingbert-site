@@ -1350,38 +1350,29 @@ main {
 /* NFL navigation */
 .site-nav .nav-group {
   position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.site-nav .nav-group__trigger {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-.site-nav .nav-group__trigger.active {
-  color: var(--foreground);
-  background: var(--accent-soft);
 }
 
 .site-nav .nav-group__menu {
   position: absolute;
   top: calc(100% + 10px);
   left: 0;
+  display: none;
+  flex-direction: column;
   background: var(--surface-strong);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
-  padding: 10px 0;
-  display: none;
+  padding: 8px 0;
   min-width: 220px;
   z-index: 22;
 }
 
+.site-nav .nav-group.is-open .nav-group__menu,
 .site-nav .nav-group:hover .nav-group__menu,
 .site-nav .nav-group:focus-within .nav-group__menu {
-  display: block;
+  display: flex;
 }
 
 .site-nav .nav-group__menu a {
@@ -1392,6 +1383,7 @@ main {
 }
 
 .site-nav .nav-group__menu a:hover,
+.site-nav .nav-group__menu a:focus,
 .site-nav .nav-group__menu a.active {
   color: var(--foreground);
   background: rgba(99, 102, 241, 0.08);
@@ -1400,21 +1392,29 @@ main {
 @media (max-width: 820px) {
   .site-nav .nav-group {
     width: 100%;
+    display: block;
+  }
+
+  .site-nav .nav-group__trigger {
+    display: inline-flex;
+    width: 100%;
   }
 
   .site-nav .nav-group__menu {
     position: static;
-    display: block;
+    display: none;
     border: none;
     box-shadow: none;
     padding: 6px 0 0;
     background: transparent;
   }
 
+  .site-nav .nav-group.is-open .nav-group__menu {
+    display: block;
+  }
+
   .site-nav .nav-group__menu a {
     padding: 8px 0 8px 18px;
-    width: 100%;
-    border-radius: 0;
   }
 }
 
@@ -1597,6 +1597,23 @@ main {
 
   .nfl-report {
     padding: 24px;
+  }
+}
+
+.legacy-embed {
+  padding: 0;
+  background: var(--surface-strong);
+}
+
+.legacy-embed__frame {
+  border: 0;
+  width: 100%;
+  min-height: 1200px;
+}
+
+@media (max-width: 640px) {
+  .legacy-embed__frame {
+    min-height: 1400px;
   }
 }
 

@@ -3,6 +3,11 @@
 
   const navToggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.site-nav');
+  const navGroups = nav ? Array.from(nav.querySelectorAll('.nav-group')) : [];
+
+  const closeNavGroups = () => {
+    navGroups.forEach((group) => group.classList.remove('is-open'));
+  };
 
   const setNavState = (expanded) => {
     if (!navToggle || !nav) {
@@ -12,7 +17,41 @@
     navToggle.setAttribute('aria-expanded', String(expanded));
     navToggle.setAttribute('aria-label', expanded ? 'Close navigation' : 'Open navigation');
     nav.classList.toggle('open', expanded);
+
+    if (!expanded) {
+      closeNavGroups();
+    }
   };
+
+  if (navGroups.length) {
+    navGroups.forEach((group) => {
+      const trigger = group.querySelector('.nav-group__trigger');
+      if (!trigger) {
+        return;
+      }
+
+      trigger.addEventListener('click', (event) => {
+        const alreadyOpen = group.classList.contains('is-open');
+        if (!alreadyOpen) {
+          event.preventDefault();
+          closeNavGroups();
+          group.classList.add('is-open');
+        }
+      });
+
+      trigger.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          group.classList.remove('is-open');
+        }
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.nav-group')) {
+        closeNavGroups();
+      }
+    });
+  }
 
   if (navToggle && nav) {
     navToggle.addEventListener('click', () => {
@@ -21,48 +60,91 @@
     });
 
     nav.addEventListener('click', (event) => {
-      const target = event.target;
-      if (target && target.closest('a')) {
-        setNavState(false);
+      const anchor = event.target && event.target.closest('a');
+      if (!anchor) {
+        return;
       }
+
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      closeNavGroups();
+      setNavState(false);
     });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
+        closeNavGroups();
         setNavState(false);
       }
     });
   }
 
-  const revealItems = document.querySelectorAll('[data-reveal]');
+  const legacyFrames = document.querySelectorAll('.legacy-embed__frame');
 
-  if (!revealItems.length) {
-    return;
-  }
+  legacyFrames.forEach((frame) => {
+    const resizeFrame = () => {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        if (!doc) {
+          return;
+        }
+        const height = Math.max(
+          doc.body ? doc.body.scrollHeight : 0,
+          doc.documentElement ? doc.documentElement.scrollHeight : 0,
+        );
+        if (height) {
+          frame.style.height = `${height}px`;
+        }
+      } catch (error) {
+        // ignore cross-origin access issues
+      }
+    };
+
+    frame.addEventListener('load', () => {
+      resizeFrame();
+      try {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        if (!doc || !('MutationObserver' in window)) {
+          return;
+        }
+        const observer = new MutationObserver(resizeFrame);
+        observer.observe(doc.body, { childList: true, subtree: true, characterData: true });
+      } catch (error) {
+        // ignore observer errors
+      }
+      window.addEventListener('resize', resizeFrame);
+    });
+  });
+
+  const revealItems = document.querySelectorAll('[data-reveal]');
 
   const activate = (el) => {
     el.classList.add('is-visible');
   };
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          activate(entry.target);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
+  if (revealItems.length) {
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            activate(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
 
-    revealItems.forEach((el) => {
-      const delay = el.dataset.revealDelay;
-      if (delay) {
-        el.style.transitionDelay = delay;
-      }
-      observer.observe(el);
-    });
-  } else {
-    revealItems.forEach(activate);
+      revealItems.forEach((el) => {
+        const delay = el.dataset.revealDelay;
+        if (delay) {
+          el.style.transitionDelay = delay;
+        }
+        observer.observe(el);
+      });
+    } else {
+      revealItems.forEach(activate);
+    }
   }
 
   const HEART_MODEL = {
@@ -175,7 +257,7 @@
       context = 'Model sees a profile similar to lower-risk patients in the training set.';
     } else if (probability < 0.65) {
       tier = 'Moderate estimated probability';
-      context = 'Mixed signals—consider the follow-up prompts outlined in the workflow summary before making decisions.';
+      context = 'Mixed signals - consider the follow-up prompts outlined in the workflow summary before making decisions.';
     } else {
       tier = 'Elevated estimated probability';
       context = 'Profile aligns with patients who frequently had heart disease in the study. Use this as a prompt for professional evaluation.';

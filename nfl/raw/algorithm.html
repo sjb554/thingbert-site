@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NFL Predictive Algorithm Exhibit</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; background-color: #ffffff; }
+  h1, h2 { color: #002b5c; border-bottom: 2px solid #002b5c; padding-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 20px; font-size: 15px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background-color: #002b5c; color: white; }
+  tr:nth-child(even) { background-color: #f9f9f9; }
+  .section { margin-top: 40px; }
+  .highlight { background-color: #f0f6ff; padding: 10px; border-radius: 5px; }
+  ul { margin-left: 20px; }
+</style>
+</head>
+<body>
+
+<h1>🏈 Exhibit: How the NFL Predictive Algorithm Works</h1>
+
+<div class="section">
+<h2>Step-by-Step Summary</h2>
+<table>
+<tr><th>Step</th><th>Purpose</th><th>Example Output</th></tr>
+<tr><td>1. Data Inputs</td><td>Pull 8-week rolling team stats, Vegas lines, injuries</td><td>Yards/play, turnover %, rest days</td></tr>
+<tr><td>2. Feature Engineering</td><td>Compute matchup-adjusted strengths</td><td>Off – Def differential</td></tr>
+<tr><td>3. Model Prediction</td><td>Predict continuous expected points per team</td><td>Home: 24.3, Away: 19.8</td></tr>
+<tr><td>4. Post-Processing</td><td>Round to realistic NFL scores</td><td>→ 24–20</td></tr>
+<tr><td>5. EV Computation</td><td>Compare model vs. book probabilities</td><td>+3.8% expected edge</td></tr>
+<tr><td>6. Output</td><td>Display in report with odds & predicted score</td><td>"Lines Over the Next 7 Days" table</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Feature Engineering — Deeper View</h2>
+<table>
+<tr><th>Sub-step</th><th>What It Does</th><th>Example</th></tr>
+<tr><td>1. Normalize stats</td><td>Standardize team metrics so all inputs are on a comparable scale.</td><td>Yards/play → 0.65</td></tr>
+<tr><td>2. Rolling averages</td><td>Use 8-week moving window to smooth randomness in performance.</td><td>24 → 22.7 adjusted</td></tr>
+<tr><td>3. Matchup differentials</td><td>Compute offense vs. opponent’s defensive strength.</td><td>KC offense (0.8) – NYJ defense (0.5) = +0.3</td></tr>
+<tr><td>4. Vegas baselines</td><td>Convert spread + total into implied team points.</td><td>Spread −3, Total 48 → 25.5 vs 22.5</td></tr>
+<tr><td>5. Composite features</td><td>Combine all signals: efficiency, rest, travel, home-field, weather, etc.</td><td>X = [net_strength, rest_days, dome_flag]</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Expected Value (EV) Computation — Breakdown</h2>
+<table>
+<tr><th>Component</th><th>Description</th><th>Formula / Logic</th></tr>
+<tr><td>Model Probability</td><td>Chance of winning or covering derived from model simulations.</td><td>P<sub>model</sub> = 67.2%</td></tr>
+<tr><td>Implied Probability</td><td>Converted from sportsbook odds.</td><td>P<sub>implied</sub> = 1 / (1 + (odds/100))</td></tr>
+<tr><td>Expected Value</td><td>Model’s predicted edge over bookmaker.</td><td>EV = (P<sub>model</sub> − P<sub>implied</sub>) × 100</td></tr>
+<tr><td>Filters</td><td>Retain bets only if EV ≥ threshold.</td><td>1% for spreads, 2% for ML/totals</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Internal Mechanics</h2>
+<ul>
+<li>Regression trained on last 8 weeks (rolling window).</li>
+<li>Uses both <strong>team efficiency</strong> and <strong>Vegas-implied baseline</strong>.</li>
+<li>Produces <strong>continuous expected points</strong> for mathematical accuracy.</li>
+<li>Displays <strong>quantized scores</strong> (0, 3, 7, 10, 14, etc.) for human readability.</li>
+</ul>
+</div>
+
+<div class="section highlight">
+<h2>Future Enhancement</h2>
+<p>Integrate realistic scoring directly into training:</p>
+<ul>
+<li>Use a <strong>score bucket loss</strong> that penalizes predictions far from real NFL scoring clusters.</li>
+<li>Alternatively, simulate outcomes from a <strong>Poisson-style scoring distribution</strong> aligned with actual NFL point structures.</li>
+</ul>
+</div>
+
+</body>
+</html>

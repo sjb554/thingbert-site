@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Dive into the Thingbert NFL predictive algorithm, from features and scoring to expected value calculations."/>
+  <meta name="description" content="Dive into the original Thingbert NFL predictive algorithm exhibit.">
   <title>Thingbert - NFL Model Methodology</title>
   <link rel="stylesheet" href="../assets/css/main.css?v=20251008">
   <script src="../assets/js/site.js?v=20251008" defer></script>
@@ -37,158 +37,8 @@
     </div>
   </header>
 
-  <main class="container page-content nfl-page">
-    <header class="page-header" data-reveal>
-      <h1>How the NFL Predictive Algorithm Works</h1>
-      <p>The engine blends matchup-adjusted performance, market baselines, and expected value math to surface actionable plays. Here is the transparent walkthrough.</p>
-    </header>
-
-    <section class="page-section" data-reveal>
-      <h2>Step-by-step summary</h2>
-      <div class="nfl-table-wrap">
-        <table class="nfl-info-table">
-          <thead>
-            <tr>
-              <th scope="col">Step</th>
-              <th scope="col">Purpose</th>
-              <th scope="col">Example output</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1. Data inputs</td>
-              <td>Pull 8-week rolling team stats, closing lines, and injury reports.</td>
-              <td>Yards per play, turnover rate, rest days.</td>
-            </tr>
-            <tr>
-              <td>2. Feature engineering</td>
-              <td>Translate raw stats into matchup-adjusted strengths.</td>
-              <td>Offense minus opponent defense differential.</td>
-            </tr>
-            <tr>
-              <td>3. Model prediction</td>
-              <td>Predict continuous expected points for each team.</td>
-              <td>Home: 24.3 vs Away: 19.8.</td>
-            </tr>
-            <tr>
-              <td>4. Post-processing</td>
-              <td>Convert continuous output into realistic NFL scores.</td>
-              <td>Rounded to 24-20 using score buckets.</td>
-            </tr>
-            <tr>
-              <td>5. EV computation</td>
-              <td>Compare model probabilities to the book's implied chances.</td>
-              <td>+3.8% expected edge.</td>
-            </tr>
-            <tr>
-              <td>6. Output</td>
-              <td>Publish rated plays with odds, stake size, and predicted score.</td>
-              <td>Displayed in the weekly recommendations table.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="page-section" data-reveal>
-      <h2>Feature engineering breakdown</h2>
-      <div class="nfl-table-wrap">
-        <table class="nfl-info-table">
-          <thead>
-            <tr>
-              <th scope="col">Sub-step</th>
-              <th scope="col">What it does</th>
-              <th scope="col">Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Normalize stats</td>
-              <td>Standardize team metrics to comparable scales.</td>
-              <td>Yards per play z-score = 0.65.</td>
-            </tr>
-            <tr>
-              <td>Rolling averages</td>
-              <td>Use eight-week windows to smooth volatility.</td>
-              <td>Raw 24 points becomes 22.7 adjusted.</td>
-            </tr>
-            <tr>
-              <td>Matchup differentials</td>
-              <td>Contrast offense versus opponent defensive strength.</td>
-              <td>KC offense 0.8 minus NYJ defense 0.5 = +0.3.</td>
-            </tr>
-            <tr>
-              <td>Vegas baselines</td>
-              <td>Decompose spread and total into implied team totals.</td>
-              <td>Spread -3, total 48 -> 25.5 vs 22.5 implied points.</td>
-            </tr>
-            <tr>
-              <td>Composite features</td>
-              <td>Blend efficiency, rest, travel, venue, and weather flags.</td>
-              <td>Feature vector X = [net_strength, rest_days, dome_flag].</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="page-section" data-reveal>
-      <h2>Expected value math</h2>
-      <div class="nfl-table-wrap">
-        <table class="nfl-info-table">
-          <thead>
-            <tr>
-              <th scope="col">Component</th>
-              <th scope="col">Description</th>
-              <th scope="col">Formula / logic</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Model probability</td>
-              <td>Win or cover chance from simulation.</td>
-              <td>P_model = 67.2%.</td>
-            </tr>
-            <tr>
-              <td>Implied probability</td>
-              <td>Converted from sportsbook odds.</td>
-              <td>P_implied = 1 / (1 + odds/100).</td>
-            </tr>
-            <tr>
-              <td>Expected value</td>
-              <td>Edge of the model over the market.</td>
-              <td>EV% = (P_model - P_implied) * 100.</td>
-            </tr>
-            <tr>
-              <td>Filters</td>
-              <td>Require minimum edge thresholds.</td>
-              <td>1% for spreads, 2% for moneyline/totals.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="page-section" data-reveal>
-      <h2>Internal mechanics</h2>
-      <ul class="nfl-list">
-        <li>Logistic regression trained on rolling eight-week samples.</li>
-        <li>Combines team efficiency metrics with Vegas-implied baselines.</li>
-        <li>Produces continuous expected points for mathematical accuracy.</li>
-        <li>Translates points into realistic NFL scoring buckets for presentation.</li>
-      </ul>
-    </section>
-
-    <section class="page-section" data-reveal>
-      <div class="nfl-callout nfl-callout--soft">
-        <h2>Next up</h2>
-        <p>We are exploring score-aware loss functions and Poisson-style simulations so the model internalizes realistic scoring directly during training.</p>
-        <ul class="nfl-list">
-          <li>Introduce a score bucket loss that penalizes improbable margins.</li>
-          <li>Experiment with Poisson-based drive simulations aligned to NFL scoring patterns.</li>
-        </ul>
-      </div>
-    </section>
+  <main class="legacy-embed">
+    <iframe class="legacy-embed__frame" src="raw/algorithm.html" title="NFL Predictive Algorithm Exhibit" loading="lazy"></iframe>
   </main>
 
   <footer class="site-footer">
