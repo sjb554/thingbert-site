@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Weekly NFL predictions from Thingbert with moneyline, spread, and totals edges for the upcoming slate."/>
+  <title>Thingbert - NFL Predictions Board</title>
+  <link rel="stylesheet" href="../assets/css/main.css?v=20251008">
+  <script src="../assets/js/site.js?v=20251008" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="../index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../market.html">Insights</a>
+        <a href="../labs.html">Labs</a>
+        <div class="nav-group">
+          <a href="../nfl/index.html" class="nav-group__trigger active">NFL</a>
+          <div class="nav-group__menu" aria-label="NFL submenu">
+            <a href="../nfl/predictions.html" class="active" aria-current="page">Predictions</a>
+            <a href="../nfl/how-to-read.html">How to Read the Board</a>
+            <a href="../nfl/algorithm.html">Model Methodology</a>
+          </div>
+        </div>
+        <a href="../compare-your-price-to-medicare.html">Compare Your Price to Medicare</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content nfl-page">
+    <header class="page-header" data-reveal>
+      <h1>NFL Predictions & Edge Board</h1>
+      <p>This week's slate captures the sharpest moneyline, spread, and total positions across the next seven days. Scan the best price, the model's lean, and the quantized score for each matchup before you fire.</p>
+      <p class="nfl-page__note">Timestamp: 2025-10-29 01:31 UTC | Mode: Vegas</p>
+    </header>
+
+    <section class="page-section" data-reveal>
+      <div class="nfl-report">
+        <h2 class="nfl-report__title">Lines Over the Next 7 Days</h2>
+        <div class="nfl-report__table">
+<table class="nfl-table">
+<thead>
+<tr>
+<th rowspan="2">Game</th>
+<th class="group-header" colspan="4">ML</th>
+<th class="group-header" colspan="4">Spread</th>
+<th class="group-header" colspan="4">Total</th>
+<th rowspan="2">Predicted Score</th>
+</tr>
+<tr>
+<th class="sub-header">Side</th>
+<th class="sub-header">Line</th>
+<th class="sub-header">Price</th>
+<th class="sub-header">Book</th>
+<th class="sub-header">Side</th>
+<th class="sub-header">Line</th>
+<th class="sub-header">Price</th>
+<th class="sub-header">Book</th>
+<th class="sub-header">Side</th>
+<th class="sub-header">Line</th>
+<th class="sub-header">Price</th>
+<th class="sub-header">Book</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baltimore Ravens @ Miami Dolphins</td>
+<td>Away (Baltimore Ravens)</td>
+<td>--</td>
+<td>-395</td>
+<td>BetUS</td>
+<td>Away (Baltimore Ravens)</td>
+<td>-7.5</td>
+<td>-110</td>
+<td>BetMGM</td>
+<td>Under</td>
+<td>51.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>41.9-5.6</td>
+</tr>
+<tr>
+<td>Atlanta Falcons @ New England Patriots</td>
+<td>Home (New England Patriots)</td>
+<td>--</td>
+<td>-250</td>
+<td>BetMGM</td>
+<td>Away (Atlanta Falcons)</td>
+<td>+6</td>
+<td>-105</td>
+<td>BetUS</td>
+<td>Under</td>
+<td>45.5</td>
+<td>-115</td>
+<td>FanDuel</td>
+<td>27.3-15.5</td>
+</tr>
+<tr>
+<td>Carolina Panthers @ Green Bay Packers</td>
+<td>Home (Green Bay Packers)</td>
+<td>--</td>
+<td>-770</td>
+<td>BetRivers</td>
+<td>Away (Carolina Panthers)</td>
+<td>+13</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>Under</td>
+<td>44.5</td>
+<td>-110</td>
+<td>MyBookie.ag</td>
+<td>21.2-21.2</td>
+</tr>
+<tr>
+<td>Chicago Bears @ Cincinnati Bengals</td>
+<td>Home (Cincinnati Bengals)</td>
+<td>--</td>
+<td>+130</td>
+<td>Bovada</td>
+<td>Home (Cincinnati Bengals)</td>
+<td>+3</td>
+<td>-120</td>
+<td>Bovada</td>
+<td>Under</td>
+<td>53</td>
+<td>-110</td>
+<td>MyBookie.ag</td>
+<td>13.5-33.5</td>
+</tr>
+<tr>
+<td>Denver Broncos @ Houston Texans</td>
+<td>Away (Denver Broncos)</td>
+<td>--</td>
+<td>+105</td>
+<td>DraftKings</td>
+<td>Away (Denver Broncos)</td>
+<td>+1.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>40</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>28.4-10.8</td>
+</tr>
+<tr>
+<td>Minnesota Vikings @ Detroit Lions</td>
+<td>Home (Detroit Lions)</td>
+<td>--</td>
+<td>-450</td>
+<td>BetUS</td>
+<td>Home (Detroit Lions)</td>
+<td>-8.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>48.5</td>
+<td>-110</td>
+<td>BetMGM</td>
+<td>4.6-43.0</td>
+</tr>
+<tr>
+<td>Indianapolis Colts @ Pittsburgh Steelers</td>
+<td>Away (Indianapolis Colts)</td>
+<td>--</td>
+<td>-162</td>
+<td>FanDuel</td>
+<td>Away (Indianapolis Colts)</td>
+<td>-3</td>
+<td>-115</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>50.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>35.4-9.0</td>
+</tr>
+<tr>
+<td>Los Angeles Chargers @ Tennessee Titans</td>
+<td>Away (Los Angeles Chargers)</td>
+<td>--</td>
+<td>-505</td>
+<td>MyBookie.ag</td>
+<td>Away (Los Angeles Chargers)</td>
+<td>-9.5</td>
+<td>-102</td>
+<td>LowVig.ag</td>
+<td>Under</td>
+<td>44</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>36.8-4.3</td>
+</tr>
+<tr>
+<td>San Francisco 49ers @ New York Giants</td>
+<td>Away (San Francisco 49ers)</td>
+<td>--</td>
+<td>-148</td>
+<td>BetRivers</td>
+<td>Away (San Francisco 49ers)</td>
+<td>-2.5</td>
+<td>-115</td>
+<td>MyBookie.ag</td>
+<td>Under</td>
+<td>49</td>
+<td>-110</td>
+<td>MyBookie.ag</td>
+<td>33.3-9.5</td>
+</tr>
+<tr>
+<td>Jacksonville Jaguars @ Las Vegas Raiders</td>
+<td>Home (Las Vegas Raiders)</td>
+<td>--</td>
+<td>+150</td>
+<td>Bovada</td>
+<td>Home (Las Vegas Raiders)</td>
+<td>+3.5</td>
+<td>-120</td>
+<td>BetRivers</td>
+<td>Under</td>
+<td>45.5</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>12.7-29.0</td>
+</tr>
+<tr>
+<td>New Orleans Saints @ Los Angeles Rams</td>
+<td>Home (Los Angeles Rams)</td>
+<td>--</td>
+<td>-900</td>
+<td>DraftKings</td>
+<td>Home (Los Angeles Rams)</td>
+<td>-13.5</td>
+<td>-120</td>
+<td>BetOnline.ag</td>
+<td>Under</td>
+<td>44.5</td>
+<td>-115</td>
+<td>BetRivers</td>
+<td>2.3-39.8</td>
+</tr>
+<tr>
+<td>Kansas City Chiefs @ Buffalo Bills</td>
+<td>Home (Buffalo Bills)</td>
+<td>--</td>
+<td>+120</td>
+<td>BetUS</td>
+<td>Home (Buffalo Bills)</td>
+<td>+2.5</td>
+<td>-115</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>52.5</td>
+<td>-109</td>
+<td>LowVig.ag</td>
+<td>13.3-34.6</td>
+</tr>
+<tr>
+<td>Seattle Seahawks @ Washington Commanders</td>
+<td>Home (Washington Commanders)</td>
+<td>--</td>
+<td>+150</td>
+<td>FanDuel</td>
+<td>Home (Washington Commanders)</td>
+<td>+3.5</td>
+<td>-118</td>
+<td>LowVig.ag</td>
+<td>Under</td>
+<td>47.5</td>
+<td>-115</td>
+<td>DraftKings</td>
+<td>13.2-30.2</td>
+</tr>
+<tr>
+<td>Arizona Cardinals @ Dallas Cowboys</td>
+<td>Home (Dallas Cowboys)</td>
+<td>--</td>
+<td>-145</td>
+<td>Bovada</td>
+<td>Away (Arizona Cardinals)</td>
+<td>+3</td>
+<td>-118</td>
+<td>BetRivers</td>
+<td>Under</td>
+<td>54.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>33.5-14.4</td>
+</tr>
+<tr>
+<td>Las Vegas Raiders @ Denver Broncos</td>
+<td>Home (Denver Broncos)</td>
+<td>--</td>
+<td>-480</td>
+<td>FanDuel</td>
+<td>Home (Denver Broncos)</td>
+<td>-9.5</td>
+<td>-105</td>
+<td>FanDuel</td>
+<td>Under</td>
+<td>42.5</td>
+<td>-102</td>
+<td>FanDuel</td>
+<td>3.8-37.9</td>
+</tr>
+<tr>
+<td>Atlanta Falcons @ Indianapolis Colts</td>
+<td>Home (Indianapolis Colts)</td>
+<td>--</td>
+<td>-340</td>
+<td>DraftKings</td>
+<td>Away (Atlanta Falcons)</td>
+<td>+7</td>
+<td>-105</td>
+<td>FanDuel</td>
+<td>Under</td>
+<td>48.5</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>27.4-17.6</td>
+</tr>
+<tr>
+<td>Baltimore Ravens @ Minnesota Vikings</td>
+<td>Home (Minnesota Vikings)</td>
+<td>--</td>
+<td>+168</td>
+<td>FanDuel</td>
+<td>Away (Baltimore Ravens)</td>
+<td>-3.5</td>
+<td>-105</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>47.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>36.4-8.6</td>
+</tr>
+<tr>
+<td>Buffalo Bills @ Miami Dolphins</td>
+<td>Home (Miami Dolphins)</td>
+<td>--</td>
+<td>+330</td>
+<td>FanDuel</td>
+<td>Away (Buffalo Bills)</td>
+<td>-8.5</td>
+<td>-105</td>
+<td>FanDuel</td>
+<td>Under</td>
+<td>50.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>41.6-5.7</td>
+</tr>
+<tr>
+<td>New Orleans Saints @ Carolina Panthers</td>
+<td>Home (Carolina Panthers)</td>
+<td>--</td>
+<td>-185</td>
+<td>DraftKings</td>
+<td>Home (Carolina Panthers)</td>
+<td>-3.5</td>
+<td>-105</td>
+<td>LowVig.ag</td>
+<td>Under</td>
+<td>42.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>7.2-32.6</td>
+</tr>
+<tr>
+<td>New York Giants @ Chicago Bears</td>
+<td>Home (Chicago Bears)</td>
+<td>--</td>
+<td>-166</td>
+<td>DraftKings</td>
+<td>Home (Chicago Bears)</td>
+<td>-3</td>
+<td>-115</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>47.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>8.0-33.4</td>
+</tr>
+<tr>
+<td>Cleveland Browns @ New York Jets</td>
+<td>Home (New York Jets)</td>
+<td>--</td>
+<td>-125</td>
+<td>DraftKings</td>
+<td>Home (New York Jets)</td>
+<td>-1.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>38.5</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>8.5-28.9</td>
+</tr>
+<tr>
+<td>Jacksonville Jaguars @ Houston Texans</td>
+<td>Home (Houston Texans)</td>
+<td>--</td>
+<td>-142</td>
+<td>FanDuel</td>
+<td>Away (Jacksonville Jaguars)</td>
+<td>+3</td>
+<td>-105</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>42.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>27.4-11.7</td>
+</tr>
+<tr>
+<td>New England Patriots @ Tampa Bay Buccaneers</td>
+<td>Home (Tampa Bay Buccaneers)</td>
+<td>--</td>
+<td>-126</td>
+<td>FanDuel</td>
+<td>Home (Tampa Bay Buccaneers)</td>
+<td>-1.5</td>
+<td>-112</td>
+<td>FanDuel</td>
+<td>Under</td>
+<td>48.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>10.3-35.3</td>
+</tr>
+<tr>
+<td>Arizona Cardinals @ Seattle Seahawks</td>
+<td>Home (Seattle Seahawks)</td>
+<td>--</td>
+<td>-260</td>
+<td>FanDuel</td>
+<td>Away (Arizona Cardinals)</td>
+<td>+6.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>45.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>27.0-15.6</td>
+</tr>
+<tr>
+<td>Detroit Lions @ Washington Commanders</td>
+<td>Home (Washington Commanders)</td>
+<td>--</td>
+<td>+158</td>
+<td>FanDuel</td>
+<td>Away (Detroit Lions)</td>
+<td>-3</td>
+<td>-115</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>51.5</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>40.0-9.9</td>
+</tr>
+<tr>
+<td>Los Angeles Rams @ San Francisco 49ers</td>
+<td>Home (San Francisco 49ers)</td>
+<td>--</td>
+<td>+136</td>
+<td>DraftKings</td>
+<td>Away (Los Angeles Rams)</td>
+<td>-3</td>
+<td>-105</td>
+<td>LowVig.ag</td>
+<td>Under</td>
+<td>49</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>35.4-9.8</td>
+</tr>
+<tr>
+<td>Pittsburgh Steelers @ Los Angeles Chargers</td>
+<td>Home (Los Angeles Chargers)</td>
+<td>--</td>
+<td>-188</td>
+<td>FanDuel</td>
+<td>Home (Los Angeles Chargers)</td>
+<td>-3.5</td>
+<td>-110</td>
+<td>FanDuel</td>
+<td>Under</td>
+<td>46.5</td>
+<td>-107</td>
+<td>LowVig.ag</td>
+<td>7.6-35.1</td>
+</tr>
+<tr>
+<td>Philadelphia Eagles @ Green Bay Packers</td>
+<td>Home (Green Bay Packers)</td>
+<td>--</td>
+<td>-162</td>
+<td>FanDuel</td>
+<td>Away (Philadelphia Eagles)</td>
+<td>+3</td>
+<td>-105</td>
+<td>DraftKings</td>
+<td>Under</td>
+<td>45.5</td>
+<td>-110</td>
+<td>DraftKings</td>
+<td>30.2-13.8</td>
+</tr>
+</tbody>
+</table>
+
+
+        </div>
+        <p class="nfl-report__footnote">Predicted score reflects the model's rounded points for each team. Always confirm limits and available lines before placing any ticket.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+    </div>
+  </footer>
+</body>
+</html>

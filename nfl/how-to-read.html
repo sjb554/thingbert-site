@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interpret the Thingbert NFL recommendations table with a quick guide to every column and the expected value math."/>
+  <title>Thingbert - How to Read the NFL Board</title>
+  <link rel="stylesheet" href="../assets/css/main.css?v=20251008">
+  <script src="../assets/js/site.js?v=20251008" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="../index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../market.html">Insights</a>
+        <a href="../labs.html">Labs</a>
+        <div class="nav-group">
+          <a href="../nfl/index.html" class="nav-group__trigger active">NFL</a>
+          <div class="nav-group__menu" aria-label="NFL submenu">
+            <a href="../nfl/predictions.html">Predictions</a>
+            <a href="../nfl/how-to-read.html" class="active" aria-current="page">How to Read the Board</a>
+            <a href="../nfl/algorithm.html">Model Methodology</a>
+          </div>
+        </div>
+        <a href="../compare-your-price-to-medicare.html">Compare Your Price to Medicare</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content nfl-page">
+    <header class="page-header" data-reveal>
+      <h1>How to Read the NFL Recommendations</h1>
+      <p>Every row on the board is a model-backed wager. Use this cheat sheet to understand the columns, spot the edges, and size your stakes responsibly.</p>
+    </header>
+
+    <section class="page-section" data-reveal>
+      <div class="nfl-callout">
+        <strong>What you are seeing:</strong> the table surfaces bets where the model detects positive expected value. <span class="nfl-highlight">EV% shows value</span> while <span class="nfl-highlight">Model Prob shows confidence</span>.
+      </div>
+    </section>
+
+    <section class="page-section" data-reveal>
+      <h2>Field Definitions</h2>
+      <div class="nfl-table-wrap">
+        <table class="nfl-info-table">
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Meaning</th>
+              <th scope="col">How to use it</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Game</strong></td>
+              <td>Matchup with home team listed second.</td>
+              <td>Group rows to see all plays tied to one game.</td>
+            </tr>
+            <tr>
+              <td><strong>Market</strong></td>
+              <td>ML (moneyline), Spread, or Total.</td>
+              <td>ML = winner, Spread = margin, Total = combined points.</td>
+            </tr>
+            <tr>
+              <td><strong>Side</strong></td>
+              <td>Direction of the bet.</td>
+              <td>Home/Away for ML or Spread, Over/Under for Totals.</td>
+            </tr>
+            <tr>
+              <td><strong>Model Prob</strong></td>
+              <td>Model-implied probability of success.</td>
+              <td>>= 60% usually signals a strong conviction.</td>
+            </tr>
+            <tr>
+              <td><strong>Book Odds</strong></td>
+              <td>Quoted sportsbook price in American format.</td>
+              <td>Determines payout and drives implied probability.</td>
+            </tr>
+            <tr>
+              <td><strong>Implied Prob</strong></td>
+              <td>Probability implied by the posted odds.</td>
+              <td>American odds: +X -> 100/(X+100), -X -> |X|/(|X|+100).</td>
+            </tr>
+            <tr>
+              <td><strong>Edge %</strong></td>
+              <td>Gap between model and market.</td>
+              <td>Edge = ModelProb - ImpliedProb (percentage points).</td>
+            </tr>
+            <tr>
+              <td><strong>EV %</strong></td>
+              <td>Expected return per dollar staked.</td>
+              <td>EV% = 100 * (ModelProb * decimalOdds - 1).</td>
+            </tr>
+            <tr>
+              <td><strong>Stake $</strong></td>
+              <td>Recommended stake using fractional Kelly sizing.</td>
+              <td>Treat as a cap and stay within bankroll limits.</td>
+            </tr>
+            <tr>
+              <td><strong>Line</strong></td>
+              <td>Spread or total number tied to the bet.</td>
+              <td>Examples: -3.5, +2.5, o46.5, u41.</td>
+            </tr>
+            <tr>
+              <td><strong>Book</strong></td>
+              <td>Sportsbook offering the quoted price.</td>
+              <td>Place the bet where the edge was measured.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page-section" data-reveal>
+      <h2>Quick Interpretation</h2>
+      <div class="nfl-table-wrap">
+        <table class="nfl-info-table">
+          <thead>
+            <tr>
+              <th scope="col">Signal</th>
+              <th scope="col">What it means</th>
+              <th scope="col">Recommended action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="nfl-pill nfl-pill--good">High EV (>= 5%) + High Prob (>= 60%)</span></td>
+              <td>Premium value with aligned confidence.</td>
+              <td><strong>Strike</strong> quickly if the number is still live.</td>
+            </tr>
+            <tr>
+              <td><span class="nfl-pill nfl-pill--mid">Moderate EV (2-4%)</span></td>
+              <td>Edge exists but thinner.</td>
+              <td>Consider when Model Prob is at least 55%.</td>
+            </tr>
+            <tr>
+              <td><span class="nfl-pill nfl-pill--low">Low EV (&lt; 2%)</span></td>
+              <td>Likely breakeven after vig.</td>
+              <td>Monitor for a better price swing.</td>
+            </tr>
+            <tr>
+              <td><span class="nfl-pill nfl-pill--bad">Negative EV</span></td>
+              <td>Market has the superior price.</td>
+              <td>Pass or look for alternate angles.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page-section" data-reveal>
+      <h2>Worked Example</h2>
+      <div class="nfl-grid">
+        <div class="nfl-card">
+          <strong>Inputs</strong>
+          <ul>
+            <li>Market: Moneyline</li>
+            <li>Odds: +115</li>
+            <li>Model Prob: 0.58 (58%)</li>
+            <li>Implied Prob: 100 / (115 + 100) = 0.465 (46.5%)</li>
+          </ul>
+        </div>
+        <div class="nfl-card">
+          <strong>Outputs</strong>
+          <ul>
+            <li>Edge %: 0.58 - 0.465 = +0.115 (+11.5 pts)</li>
+            <li>Decimal odds: 1 + 115/100 = 2.15</li>
+            <li>EV %: (0.58 * 2.15 - 1) * 100 = +24.7%</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" data-reveal>
+      <div class="nfl-callout nfl-callout--soft">
+        <strong>Rule of thumb:</strong> focus on plays where <em>both</em> EV% and Model Prob are strong. Use Stake $ as an upper bound, never as a mandate.
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+    </div>
+  </footer>
+</body>
+</html>
