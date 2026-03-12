@@ -71,14 +71,19 @@
 
   const loadDataset = () => {
     if (!datasetPromise) {
-      datasetPromise = fetch(DATA_URL)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Failed to load locality mapping (${response.status})`);
-          }
-          return response.json();
-        })
-        .then((data) => buildIndex(data));
+      const embeddedData = typeof window !== 'undefined' ? window.ThingbertLocalityMapping : null;
+      if (embeddedData) {
+        datasetPromise = Promise.resolve(buildIndex(embeddedData));
+      } else {
+        datasetPromise = fetch(DATA_URL)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Failed to load locality mapping (${response.status})`);
+            }
+            return response.json();
+          })
+          .then((data) => buildIndex(data));
+      }
     }
     return datasetPromise;
   };

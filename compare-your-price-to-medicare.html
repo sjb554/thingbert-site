@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Compare member healthcare bills to Medicare benchmarks with Thingbert's Medicare comparison workflow."/>
-  <title>Thingbert - Compare Your Price to Medicare</title>
-  <link rel="stylesheet" href="assets/css/main.css?v=20251008">
-  <script src="assets/js/site.js?v=20251008" defer></script>
-<script>
-  window.ThingbertPriceCheckProxy = 'https://blue-lake-aa6d.sjb554.workers.dev';
-</script>
-  <!-- Optional: set window.ThingbertPriceCheckProxy before pfs-client.js to route through a CORS proxy -->
+  <meta name="description" content="Compare healthcare bills to Medicare benchmarks with Thingbert's Medicare pricing tool.">
+  <title>Thingbert - Medicare Price Comparison</title>
+  <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+  <script src="assets/js/site.js?v=20260312" defer></script>
+  <script>
+    window.ThingbertPriceCheckProxy = 'https://blue-lake-aa6d.sjb554.workers.dev';
+  </script>
   <script src="assets/js/pfs-client.js?v=20251008" defer></script>
-  <script src="assets/js/price-check.js?v=20251008" defer></script>
+  <script src="assets/js/locality-mapping.js?v=20260312" defer></script>
+  <script src="assets/js/price-check.js?v=20260312" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -25,43 +25,30 @@
       </button>
       <nav class="site-nav" id="primary-nav">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="market.html">Insights</a>
-        <a href="labs.html">Labs</a>
-        <a href="haiku-lab.html">Haiku Lab</a>
-        <div class="nav-group">
-          <a href="nfl/index.html" class="nav-group__trigger">NFL</a>
-          <div class="nav-group__menu" aria-label="NFL submenu">
-            <a href="nfl/index.html">Predictions</a>
-            <a href="nfl/how-to-read.html">How to Read the Board</a>
-            <a href="nfl/algorithm.html">Model Methodology</a>
-          </div>
-        </div>
-        <a href="compare-your-price-to-medicare.html" class="active">Compare Your Price to Medicare</a>
-        <a href="contact.html">Contact</a>
+        <a href="compare-your-price-to-medicare.html" class="active" aria-current="page">Medicare Price Comparison</a>
+        <a href="haiku-lab.html">Haiku Generator</a>
       </nav>
     </div>
   </header>
 
   <main class="container page-content">
     <header class="page-header" data-reveal>
-      <h1>Compare Your Price to Medicare</h1>
-      <p>Submit key claim details to see how a member's bill stacks up against Medicare's published allowances.</p>
+      <h1>Medicare Price Comparison</h1>
+      <p>Enter the claim details you have, then compare the bill against Medicare's published allowances.</p>
     </header>
 
     <section class="page-section page-disclaimer" data-reveal>
       <div class="disclaimer-card">
         <h2 class="disclaimer-title">Disclaimer</h2>
-        <p>This tool summarizes Medicare Physician Fee Schedule benchmarks for informational purposes. It does not replace the official CMS publications or guidance from your Medicare Administrative Contractor (MAC).</p>
-        <p>Thingbert makes no warranties about completeness, timeliness, or accuracy and assumes no liability for decisions or actions taken using these estimates. Confirm rates with CMS or your MAC before acting.</p>
+        <p>This tool summarizes Medicare Physician Fee Schedule benchmarks for informational purposes. It does not replace official CMS publications or guidance from your Medicare Administrative Contractor.</p>
+        <p>Confirm rates with CMS or your MAC before making payment or contracting decisions.</p>
       </div>
     </section>
 
     <section class="page-section" data-reveal>
       <div class="price-check-card">
-        <h2>Request a comparison</h2>
-        <p class="price-check-description">Compare your healthcare bill to Medicare's official rates.</p>
+        <h2>Run a comparison</h2>
+        <p class="price-check-description">Compare a bill or allowed amount to Medicare's official rates.</p>
         <form id="price-check-form" class="price-check-form" action="#" method="post" novalidate>
           <div class="form-grid">
             <label for="hcpcs-code">
@@ -72,21 +59,21 @@
             <label for="member-location">
               <span>Member Location</span>
               <input id="member-location" name="member_location" type="text" inputmode="text" autocomplete="postal-code" placeholder="ZIP code or state (e.g., 55455 or MN)" required>
-              <small class="field-hint">Enter the service area zip code or two-letter state abbreviation.</small>
+              <small class="field-hint">Enter the service area ZIP code or two-letter state abbreviation.</small>
             </label>
             <label for="current-bill">
               <span>Current Bill Amount (optional)</span>
               <input id="current-bill" name="current_bill" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g., 1850.00">
-              <small class="field-hint">Add the billed amount to benchmark against provider charges.</small>
+              <small class="field-hint">Use this to compare a billed amount against Medicare.</small>
             </label>
             <label for="allowed-amount">
               <span>Allowed Amount on Claim (optional)</span>
               <input id="allowed-amount" name="allowed_amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g., 1240.75">
-              <small class="field-hint">Share the allowed figure from the claim to check plan-level variance.</small>
+              <small class="field-hint">Use this to compare a plan's allowed amount against Medicare.</small>
             </label>
           </div>
           <button class="button" type="submit">Run Medicare Comparison</button>
-          <p class="form-note">Submitting runs the Thingbert workflow that pulls Medicare benchmarks and assembles a comparison memo.</p>
+          <p class="form-note">This uses the Thingbert pricing workflow and Medicare benchmark data.</p>
           <div id="price-check-status" class="price-check-status hidden" role="status" aria-live="polite"></div>
           <div id="price-check-feedback" class="price-check-feedback hidden" aria-live="polite" data-role="success">
             <h3 id="price-check-feedback-title" class="price-check-feedback__title"></h3>
@@ -101,7 +88,6 @@
             <table id="price-check-pricing-table" class="price-check-table"></table>
             <p id="price-check-recommendation" class="price-check-recommendation"></p>
           </div>
-          
           <div id="price-check-error" class="price-check-error hidden" role="alert"></div>
         </form>
       </div>
@@ -110,13 +96,8 @@
 
   <footer class="site-footer">
     <div class="container">
-      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+      <small>&copy; 2026 Thingbert</small>
     </div>
   </footer>
 </body>
 </html>
-
-
-
-
-

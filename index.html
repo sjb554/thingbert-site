@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Thingbert distills complex datasets into actuarial-grade briefings, trend diagnostics, and decision-ready stories."/>
-  <title>Thingbert â€” Actuarial Insights & Data Stories</title>
-  <link rel="stylesheet" href="assets/css/main.css?v=20251008">
-  <script src="assets/js/site.js?v=20251008" defer></script>
+  <meta name="description" content="Thingbert is a home for ideas, experiments, and small tools worth sharing.">
+  <title>Thingbert</title>
+  <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+  <script src="assets/js/site.js?v=20260312" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -18,98 +18,39 @@
         <span class="nav-toggle-bar"></span>
       </button>
       <nav class="site-nav" id="primary-nav">
-        <a href="index.html" class="active">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="market.html">Insights</a>
-        <a href="labs.html">Labs</a>
-        <a href="haiku-lab.html">Haiku Lab</a>
-        <div class="nav-group">
-          <a href="nfl/index.html" class="nav-group__trigger">NFL</a>
-          <div class="nav-group__menu" aria-label="NFL submenu">
-            <a href="nfl/index.html">Predictions</a>
-            <a href="nfl/how-to-read.html">How to Read the Board</a>
-            <a href="nfl/algorithm.html">Model Methodology</a>
-          </div>
-        </div>
-        <a href="compare-your-price-to-medicare.html">Compare Your Price to Medicare</a>
-        <a href="contact.html">Contact</a>
+        <a href="index.html" class="active" aria-current="page">Home</a>
+        <a href="compare-your-price-to-medicare.html">Medicare Price Comparison</a>
+        <a href="haiku-lab.html">Haiku Generator</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container hero-grid">
+    <section class="hero hero-minimal">
+      <div class="container hero-grid hero-grid--single">
         <div class="hero-copy" data-reveal>
-          <span class="hero-eyebrow">Data storytelling studio</span>
-          <h1>Turning messy signal into actuarial-grade perspective.</h1>
-          <p class="hero-lead">Thingbert blends statistical rigor with approachable narratives so executives, clinicians, and curious humans can see the story behind the numbers.</p>
+          <span class="hero-eyebrow">Thingbert</span>
+          <h1>A home for ideas.</h1>
+          <p class="hero-lead">Thingbert is a small place for experiments, curiosities, and useful little tools. It is a home for ideas and a couple of things worth keeping handy.</p>
           <div class="hero-actions">
-            <a class="button" href="projects.html">Browse the briefings</a>
-            <a class="button button-secondary" href="contact.html">Request a custom cut</a>
+            <a class="button" href="compare-your-price-to-medicare.html">Open Medicare Tool</a>
+            <a class="button button-secondary" href="haiku-lab.html">Open Haiku Generator</a>
           </div>
-          <ul class="hero-meta">
-            <li data-reveal>
-              <span class="eyebrow">Focus</span>
-              Risk signals, utilization trends, and cross-market comparisons rooted in actuarial science.
-            </li>
-            <li data-reveal data-reveal-delay=".1s">
-              <span class="eyebrow">Approach</span>
-              Transparent methods, reproducible code, and plain-language summaries that travel well.
-            </li>
-          </ul>
-        </div>
-        <div class="hero-media" data-reveal data-reveal-delay=".12s" aria-hidden="true">
-          <div class="hero-chip accent">Trend Briefing</div>
-          <div class="hero-chip small">Scenario Lens</div>
-          <div class="hero-chip small">Signal Library</div>
         </div>
       </div>
     </section>
 
-    <section class="container intro" data-reveal>
-      <h2>What is Thingbert?</h2>
-      <p>Thingbert is a home for data-led storytelling. Each release pairs actuarial techniques with relatable visuals so you can act on the patterns faster.</p>
+    <section class="container intro intro-compact" data-reveal>
       <div class="highlights">
-        <article data-reveal>
-          <h3>Actuarial Perspective</h3>
-          <p>We frame every dataset with risk, timing, and sensitivity in mind&mdash;from population health to consumer demand.</p>
+        <article>
+          <h2>Medicare price comparison</h2>
+          <p>Check a bill against Medicare benchmarks with the pricing workflow.</p>
+          <a class="more" href="compare-your-price-to-medicare.html">Go to tool</a>
         </article>
-        <article data-reveal data-reveal-delay=".08s">
-          <h3>Method Transparency</h3>
-          <p>Each briefing ships with methodology notes, caveats, and links to the tools behind the work.</p>
-        </article>
-        <article data-reveal data-reveal-delay=".16s">
-          <h3>Actionable Storytelling</h3>
-          <p>Summaries, visuals, and scenario prompts make it easy to brief leadership or kick-start your own analysis.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="container signal-grid" data-reveal>
-      <div class="signal-heading">
-        <h2>Latest Briefings</h2>
-        <p>Fresh takes on healthcare, finance, labor, and more&mdash;all grounded in the actuarial lens.</p>
-      </div>
-      <div class="card-grid">
-        <article data-reveal>
-          <span class="tag">Healthcare</span>
-          <h3>Care Shift Index</h3>
-          <p>Charting the pivot from inpatient to ambulatory surgery centers and the claim volatility it introduces.</p>
-          <a class="more" href="projects.html">Read the highlights</a>
-        </article>
-        <article data-reveal data-reveal-delay=".08s">
-          <span class="tag">Economy</span>
-          <h3>Household Resilience Pulse</h3>
-          <p>Blending credit bureau pulls and wage data to gauge how families absorb inflation shocks.</p>
-          <a class="more" href="projects.html">View the dashboard</a>
-        </article>
-        <article data-reveal data-reveal-delay=".16s">
-          <span class="tag">Workforce</span>
-          <h3>Retention Pressure Gauge</h3>
-          <p>Forecasting turnover hot spots using tenure curves, exit interviews, and external demand signals.</p>
-          <a class="more" href="contact.html">Book a walkthrough</a>
+        <article>
+          <h2>Haiku generator</h2>
+          <p>Generate short, image-heavy poems from the Thingbert word set.</p>
+          <a class="more" href="haiku-lab.html">Go to generator</a>
         </article>
       </div>
     </section>
@@ -117,13 +58,8 @@
 
   <footer class="site-footer">
     <div class="container">
-      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+      <small>&copy; 2026 Thingbert</small>
     </div>
   </footer>
 </body>
 </html>
-
-
-
-
-
