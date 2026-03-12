@@ -1696,3 +1696,205 @@ main {
   min-width: 840px;
 }
 
+.haiku-sketch-page {
+  --bg: #f3efe3;
+  --paper: #fff9ee;
+  --ink: #1d2a24;
+  --muted: #6d6b5f;
+  --accent: #b25d3b;
+  --accent-soft: #e7c7a7;
+  --line: #d7cdbb;
+  --panel: linear-gradient(180deg, rgba(255, 249, 238, 0.95), rgba(244, 235, 216, 0.93));
+  --shadow: 0 24px 60px rgba(51, 43, 30, 0.14);
+  padding: 24px;
+  min-height: calc(100vh - 88px);
+  background:
+    radial-gradient(circle at top left, rgba(178, 93, 59, 0.18), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(46, 92, 74, 0.18), transparent 24%),
+    linear-gradient(160deg, #ebe4d3, var(--bg));
+}
+
+.haiku-sketch-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(360px, 1fr);
+  gap: 24px;
+}
+
+.haiku-sketch-page .panel,
+.haiku-sketch-page .poem-card {
+  background: var(--panel);
+  border: 1px solid rgba(88, 74, 55, 0.12);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.haiku-sketch-page .panel {
+  padding: 24px;
+}
+
+.haiku-sketch-page .eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.haiku-sketch-page h1 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 0.95;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.haiku-sketch-page .lede,
+.haiku-sketch-page .hint,
+.haiku-sketch-page .meta,
+.haiku-sketch-page .dataset {
+  color: var(--muted);
+}
+
+.haiku-sketch-page .controls {
+  display: grid;
+  gap: 14px;
+  margin: 26px 0 18px;
+}
+
+.haiku-sketch-page label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.haiku-sketch-page select,
+.haiku-sketch-page button {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--ink);
+  background: rgba(255, 252, 245, 0.95);
+}
+
+.haiku-sketch-page button {
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), #844528);
+  color: #fff8f0;
+  border: 0;
+  font-weight: 600;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+  box-shadow: 0 14px 30px rgba(132, 69, 40, 0.28);
+}
+
+.haiku-sketch-page button:hover {
+  transform: translateY(-1px);
+}
+
+.haiku-sketch-page .panel-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.haiku-sketch-page .dataset {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(88, 74, 55, 0.12);
+  font-size: 0.92rem;
+}
+
+.haiku-sketch-page .poem-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  display: grid;
+  gap: 24px;
+}
+
+.haiku-sketch-page .poem-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.15), transparent 40%),
+    radial-gradient(circle at top right, rgba(178, 93, 59, 0.14), transparent 24%);
+  pointer-events: none;
+}
+
+.haiku-sketch-page .poem-stack {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  min-height: 260px;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.haiku-sketch-page .poem-line {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.haiku-sketch-page .score-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.haiku-sketch-page .score-chip {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 251, 243, 0.82);
+  border: 1px solid rgba(88, 74, 55, 0.1);
+}
+
+.haiku-sketch-page .score-chip strong {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.haiku-sketch-page .word-notes {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.haiku-sketch-page .word-notes span {
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255, 251, 243, 0.78);
+  border: 1px solid rgba(88, 74, 55, 0.08);
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .haiku-sketch-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .haiku-sketch-page .score-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+

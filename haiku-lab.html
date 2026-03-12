@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Generate strange, image-rich haikus from Thingbert's tagged poetry lexicon.">
+  <title>Thingbert - Haiku Lab</title>
+  <link rel="stylesheet" href="assets/css/main.css?v=20251008">
+  <script src="assets/js/site.js?v=20251008" defer></script>
+  <script src="assets/js/haiku-words.js" defer></script>
+  <script src="assets/js/haiku-lab.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="market.html">Insights</a>
+        <a href="labs.html">Labs</a>
+        <a href="haiku-lab.html" class="active" aria-current="page">Haiku Lab</a>
+        <div class="nav-group">
+          <a href="nfl/index.html" class="nav-group__trigger">NFL</a>
+          <div class="nav-group__menu" aria-label="NFL submenu">
+            <a href="nfl/index.html">Predictions</a>
+            <a href="nfl/how-to-read.html">How to Read the Board</a>
+            <a href="nfl/algorithm.html">Model Methodology</a>
+          </div>
+        </div>
+        <a href="compare-your-price-to-medicare.html">Compare Your Price to Medicare</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="haiku-sketch-page">
+      <div class="haiku-sketch-shell">
+        <section class="panel">
+          <p class="eyebrow">Poetry Engine</p>
+          <h1>Haiku Sketch</h1>
+          <p class="lede">A quick browser prototype using your enriched word sheet: syllables, themes, emotion, season, time of day, and associations.</p>
+
+          <div class="controls">
+            <label>
+              Season
+              <select id="season">
+                <option value="any">Any</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+                <option value="autumn">Autumn</option>
+                <option value="winter">Winter</option>
+              </select>
+            </label>
+
+            <label>
+              Time Of Day
+              <select id="time">
+                <option value="any">Any</option>
+                <option value="dawn">Dawn</option>
+                <option value="day">Day</option>
+                <option value="dusk">Dusk</option>
+                <option value="night">Night</option>
+              </select>
+            </label>
+
+            <label>
+              Mood
+              <select id="mood">
+                <option value="any">Any</option>
+                <option value="calm">Calm</option>
+                <option value="bright">Bright</option>
+                <option value="dark">Dark</option>
+                <option value="tense">Tense</option>
+                <option value="tender">Tender</option>
+              </select>
+            </label>
+
+            <label>
+              Image Style
+              <select id="concreteness">
+                <option value="any">Any</option>
+                <option value="concrete">Concrete</option>
+                <option value="mixed">Mixed</option>
+                <option value="abstract">Abstract</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="panel-actions">
+            <button id="generate" type="button">Generate Haiku</button>
+          </div>
+
+          <p class="hint">The generator prefers coherent scenes over pure randomness. It uses a seed word, then pulls related words that fit the same mood and structure.</p>
+          <div class="dataset" id="datasetSummary">Loading word dataset...</div>
+        </section>
+
+        <section class="poem-card">
+          <div class="poem-stack" id="poem">
+            <div class="poem-line">waiting for words</div>
+            <div class="poem-line">paper light before the first line</div>
+            <div class="poem-line">breath above the page</div>
+          </div>
+
+          <div class="score-grid">
+            <div class="score-chip"><strong>Seed</strong><span id="seedValue">-</span></div>
+            <div class="score-chip"><strong>Scene</strong><span id="sceneValue">-</span></div>
+            <div class="score-chip"><strong>Mood</strong><span id="moodValue">-</span></div>
+            <div class="score-chip"><strong>Score</strong><span id="scoreValue">-</span></div>
+          </div>
+
+          <div class="word-notes" id="wordNotes"></div>
+          <p class="meta" id="metaText">Thingbert edition of the original ART-folder sketch.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Thingbert. All rights reserved.</small>
+    </div>
+  </footer>
+</body>
+</html>

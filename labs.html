@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Walk through a Thingbert lab that cleans the Cleveland heart disease dataset, benchmarks models, and offers a browser-based estimator."/>
-  <title>Thingbert Labs — Heart Disease Risk Prototype</title>
+  <title>Thingbert Labs â€” Heart Disease Risk Prototype</title>
   <link rel="stylesheet" href="assets/css/main.css?v=20251008">
   <script src="assets/js/site.js?v=20251008" defer></script>
 </head>
@@ -23,6 +23,7 @@
         <a href="projects.html">Projects</a>
         <a href="market.html">Insights</a>
         <a href="labs.html" class="active">Labs</a>
+        <a href="haiku-lab.html">Haiku Lab</a>
         <div class="nav-group">
           <a href="nfl/index.html" class="nav-group__trigger">NFL</a>
           <div class="nav-group__menu" aria-label="NFL submenu">
@@ -55,7 +56,11 @@
       </ul>
       <div class="callout-note">Important: This is a historical modelling exercise meant for analytics practice. It is not medical advice or a diagnostic tool.</div>
     </section>
-
+    <section class="insight-section" data-reveal data-reveal-delay=".02s">
+      <h2>New Lab: Haiku Generator</h2>
+      <p>A browser toy built from a custom tagged lexicon. It uses syllable counts, themes, emotion, season, time of day, and word associations to generate often-beautiful, occasionally-unhinged haikus.</p>
+      <a class="button" href="haiku-lab.html">Open Haiku Lab</a>
+    </section>
     <section class="insight-section" data-reveal>
       <h2>Snapshot</h2>
       <p>We cleaned the Cleveland cohort, converted the target to a simple yes/no heart disease indicator, and stacked two baseline models. The scaled logistic regression pipeline produced the strongest balance of sensitivity and specificity.</p>
@@ -312,12 +317,12 @@
 
     <section class="insight-section" data-reveal data-reveal-delay=".15s">
       <h2>4. Download the Analysis Files</h2>
-      <p>Same artifacts we used internally—ideal for replicating the workflow or reviewing the numbers in detail.</p>
+      <p>Same artifacts we used internallyâ€”ideal for replicating the workflow or reviewing the numbers in detail.</p>
       <ul class="resource-list">
         <li class="resource-item">
           <a href="assets/data/heart-disease-clean.csv" download>
             <span class="resource-title">Cleaned dataset (CSV)</span>
-            <span class="resource-meta">303 rows × 14 columns, target already binarized</span>
+            <span class="resource-meta">303 rows Ã— 14 columns, target already binarized</span>
           </a>
         </li>
         <li class="resource-item">
@@ -361,4 +366,10 @@
   </footer>
 </body>
 </html>
+
+
+
+
+
+
 
