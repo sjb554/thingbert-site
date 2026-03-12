@@ -15,14 +15,9 @@
   const poemNode = document.getElementById("poem");
   const generateButton = document.getElementById("generate");
   const datasetSummary = document.getElementById("datasetSummary");
-  const seedValue = document.getElementById("seedValue");
-  const sceneValue = document.getElementById("sceneValue");
-  const moodValue = document.getElementById("moodValue");
-  const scoreValue = document.getElementById("scoreValue");
-  const wordNotes = document.getElementById("wordNotes");
   const metaText = document.getElementById("metaText");
 
-  if (!generateButton || !poemNode || !datasetSummary || !seedValue || !sceneValue || !moodValue || !scoreValue || !wordNotes || !metaText) {
+  if (!generateButton || !poemNode || !datasetSummary || !metaText) {
     return;
   }
 
@@ -258,19 +253,7 @@
 
     const lines = result.lines.map(lineToText);
     poemNode.innerHTML = lines.map((line) => `<div class="poem-line">${line}</div>`).join("");
-    seedValue.textContent = result.seed.word.toLowerCase();
-    sceneValue.textContent = `${result.seed.season} / ${result.seed.time_of_day}`;
-    moodValue.textContent = `${result.seed.emotion}, ${result.seed.valence}, ${result.seed.energy}`;
-    scoreValue.textContent = String(result.score);
-
-    const noteWords = uniqueWords([
-      result.seed.word,
-      ...result.seed.associations.slice(0, 5),
-      result.seed.theme,
-      result.seed.sensory_mode
-    ]);
-    wordNotes.innerHTML = noteWords.map((value) => `<span>${value.toLowerCase()}</span>`).join("");
-    metaText.textContent = `Seeded from ${result.seed.word.toLowerCase()} with ${normalizeMoodLabel(result.filters.mood)} mood bias.`;
+    metaText.textContent = `Generated from ${result.seed.word.toLowerCase()} with ${normalizeMoodLabel(result.filters.mood)} mood bias.`;
   }
 
   function updateSummary() {

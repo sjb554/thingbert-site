@@ -42,11 +42,10 @@
 
   <main>
     <section class="haiku-sketch-page">
-      <div class="haiku-sketch-shell">
-        <section class="panel">
+      <div class="haiku-sketch-shell haiku-sketch-shell--single">
+        <section class="panel poem-panel">
           <p class="eyebrow">Poetry Engine</p>
           <h1>Haiku Sketch</h1>
-          <p class="lede">A quick browser prototype using your enriched word sheet: syllables, themes, emotion, season, time of day, and associations.</p>
 
           <div class="controls">
             <label>
@@ -98,26 +97,16 @@
             <button id="generate" type="button">Generate Haiku</button>
           </div>
 
-          <p class="hint">The generator prefers coherent scenes over pure randomness. It uses a seed word, then pulls related words that fit the same mood and structure.</p>
-          <div class="dataset" id="datasetSummary">Loading word dataset...</div>
-        </section>
-
-        <section class="poem-card">
-          <div class="poem-stack" id="poem">
+          <div class="poem-card poem-card--inline">
+            <div class="poem-stack" id="poem">
             <div class="poem-line">waiting for words</div>
             <div class="poem-line">paper light before the first line</div>
             <div class="poem-line">breath above the page</div>
+            </div>
+            <p class="meta" id="metaText">Ready.</p>
           </div>
 
-          <div class="score-grid">
-            <div class="score-chip"><strong>Seed</strong><span id="seedValue">-</span></div>
-            <div class="score-chip"><strong>Scene</strong><span id="sceneValue">-</span></div>
-            <div class="score-chip"><strong>Mood</strong><span id="moodValue">-</span></div>
-            <div class="score-chip"><strong>Score</strong><span id="scoreValue">-</span></div>
-          </div>
-
-          <div class="word-notes" id="wordNotes"></div>
-          <p class="meta" id="metaText">Thingbert edition of the original ART-folder sketch.</p>
+          <div class="dataset" id="datasetSummary">Loading word dataset...</div>
         </section>
       </div>
     </section>
