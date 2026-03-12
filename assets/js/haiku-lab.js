@@ -16,6 +16,7 @@
   const generateButton = document.getElementById("generate");
   const datasetSummary = document.getElementById("datasetSummary");
   const metaText = document.getElementById("metaText");
+  let lastSignature = "";
 
   if (!generateButton || !poemNode || !datasetSummary || !metaText) {
     return;
@@ -241,6 +242,13 @@
     return best;
   }
 
+  function signatureForResult(result) {
+    if (!result) {
+      return "";
+    }
+    return result.lines.map(lineToText).join(" | ");
+  }
+
   function renderResult(result) {
     if (!result) {
       poemNode.innerHTML = [
@@ -248,12 +256,29 @@
         "<div class='poem-line'>the page listened but found no line</div>",
         "<div class='poem-line'>try a softer filter</div>"
       ].join("");
+      lastSignature = "";
       return;
     }
 
     const lines = result.lines.map(lineToText);
     poemNode.innerHTML = lines.map((line) => `<div class="poem-line">${line}</div>`).join("");
     metaText.textContent = `Generated from ${result.seed.word.toLowerCase()} with ${normalizeMoodLabel(result.filters.mood)} mood bias.`;
+    lastSignature = lines.join(" | ");
+  }
+
+  function renderFreshResult() {
+    metaText.textContent = "Generating...";
+    let result = null;
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      result = generateHaiku();
+      if (!result) {
+        break;
+      }
+      if (signatureForResult(result) !== lastSignature) {
+        break;
+      }
+    }
+    renderResult(result);
   }
 
   function updateSummary() {
@@ -263,9 +288,9 @@
   }
 
   generateButton.addEventListener("click", function () {
-    renderResult(generateHaiku());
+    renderFreshResult();
   });
 
   updateSummary();
-  renderResult(generateHaiku());
+  renderFreshResult();
 })();
