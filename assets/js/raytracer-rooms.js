@@ -51,6 +51,21 @@
     return Math.max(320, getViewportHeight() - getHeaderOffset());
   }
 
+  function isMobileViewport() {
+    return window.matchMedia("(max-width: 700px)").matches;
+  }
+
+  function getInitialView() {
+    if (!isMobileViewport()) {
+      return { x: 0, y: 0, zoom: 1 };
+    }
+    return {
+      x: 360,
+      y: 300,
+      zoom: 0.82
+    };
+  }
+
   function syncLayoutMetrics() {
     document.body.style.setProperty("--ray-header-offset", `${getHeaderOffset()}px`);
   }
@@ -159,7 +174,7 @@
       const dx = event.clientX - dragLastX;
       const dy = event.clientY - dragLastY;
       const dragScale = 1 / Math.max(0.3, controls.zoom);
-      const touchBoost = window.matchMedia("(max-width: 700px)").matches ? 5.2 : 3.2;
+      const touchBoost = isMobileViewport() ? 7.2 : 3.2;
       controls.x = clamp(controls.x + dx * dragScale * touchBoost, -controls.maxX, controls.maxX);
       controls.y = clamp(controls.y + dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
       dragLastX = event.clientX;
@@ -466,9 +481,10 @@
     configVersion += 1;
     framesSinceConfig = 0;
     runtimeRejects = autoRejectBudget;
-    controls.x = 0;
-    controls.y = 0;
-    controls.zoom = 1;
+    const initialView = getInitialView();
+    controls.x = initialView.x;
+    controls.y = initialView.y;
+    controls.zoom = initialView.zoom;
     if (typeof createShader === "function") {
       buildShader(config);
     }
