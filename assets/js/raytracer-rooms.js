@@ -456,13 +456,13 @@
     }
   }
 
-  function setup() {
+  window.setup = function setup() {
     const canvas = createCanvas(window.innerWidth, Math.max(320, window.innerHeight - 84), WEBGL);
     canvas.parent("canvas-shell");
     noStroke();
     rebuildRoom(roomSeed);
     animateControls();
-  }
+  };
 
   function sampleRegion(gl, left, bottom, sampleWidth, sampleHeight) {
     const pixels = new Uint8Array(sampleWidth * sampleHeight * 4);
@@ -521,7 +521,7 @@
     return avgLum < 24 || maxLum < 70 || colorfulRatio < 0.05 || brightRatio < 0.09;
   }
 
-  function draw() {
+  window.draw = function draw() {
     if (!tunnelShader || !config) return;
     resetMatrix();
     shader(tunnelShader);
@@ -569,9 +569,9 @@
         }
       }, 0);
     }
-  }
+  };
 
-  function windowResized() {
+  window.windowResized = function windowResized() {
     resizeCanvas(window.innerWidth, Math.max(320, window.innerHeight - 84));
-  }
+  };
 })();
