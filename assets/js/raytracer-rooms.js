@@ -4,6 +4,7 @@
   const zoomButtons = document.querySelectorAll("[data-zoom]");
   const panel = document.querySelector(".ray-panel");
   const header = document.querySelector(".site-header");
+  const canvasShell = document.querySelector("#canvas-shell");
 
   const controls = {
     x: 0,
@@ -62,23 +63,23 @@
     return {
       x: 0,
       y: 0,
-      zoom: 0.82
+      zoom: 0.62
     };
   }
 
   function getViewUniformScale() {
-    return isMobileViewport() ? 0.016 : 0.0025;
+    return isMobileViewport() ? 0.012 : 0.0025;
   }
 
   function getFrameBias() {
     if (!isMobileViewport()) {
       return [0, 0];
     }
-    return [0.22, 0.16];
+    return [0.3, 0.22];
   }
 
   function getCameraDrift() {
-    return isMobileViewport() ? 0.18 : 1;
+    return isMobileViewport() ? 0.0 : 1;
   }
 
   function syncLayoutMetrics() {
@@ -212,6 +213,49 @@
 
   window.addEventListener("pointerup", endPointer, { passive: true });
   window.addEventListener("pointercancel", endPointer, { passive: true });
+
+  if (canvasShell) {
+    let touchDragLastX = 0;
+    let touchDragLastY = 0;
+    let touchPinchStartDistance = 0;
+    let touchPinchStartZoom = 1;
+
+    canvasShell.addEventListener("touchstart", (event) => {
+      if (!isMobileViewport()) return;
+      if ([...event.touches].some((touch) => isInsidePanel(document.elementFromPoint(touch.clientX, touch.clientY)))) return;
+      if (event.touches.length === 1) {
+        touchDragLastX = event.touches[0].clientX;
+        touchDragLastY = event.touches[0].clientY;
+      } else if (event.touches.length === 2) {
+        const a = event.touches[0];
+        const b = event.touches[1];
+        touchPinchStartDistance = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+        touchPinchStartZoom = controls.zoom;
+      }
+    }, { passive: false });
+
+    canvasShell.addEventListener("touchmove", (event) => {
+      if (!isMobileViewport()) return;
+      if ([...event.touches].some((touch) => isInsidePanel(document.elementFromPoint(touch.clientX, touch.clientY)))) return;
+      event.preventDefault();
+      if (event.touches.length === 1) {
+        const touch = event.touches[0];
+        const dx = touch.clientX - touchDragLastX;
+        const dy = touch.clientY - touchDragLastY;
+        const dragScale = 1 / Math.max(0.3, controls.zoom);
+        const touchBoost = 13.5;
+        controls.x = clamp(controls.x - dx * dragScale * touchBoost, -controls.maxX, controls.maxX);
+        controls.y = clamp(controls.y + dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
+        touchDragLastX = touch.clientX;
+        touchDragLastY = touch.clientY;
+      } else if (event.touches.length === 2) {
+        const a = event.touches[0];
+        const b = event.touches[1];
+        const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+        controls.zoom = clampZoom(touchPinchStartZoom * (dist / Math.max(1, touchPinchStartDistance)));
+      }
+    }, { passive: false });
+  }
 
   function animateControls() {
     const dt = Math.min(0.04, 1 / 60);
