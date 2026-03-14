@@ -70,6 +70,13 @@
     return isMobileViewport() ? 0.0075 : 0.0025;
   }
 
+  function getFrameBias() {
+    if (!isMobileViewport()) {
+      return [0, 0];
+    }
+    return [-0.18, -0.12];
+  }
+
   function syncLayoutMetrics() {
     document.body.style.setProperty("--ray-header-offset", `${getHeaderOffset()}px`);
   }
@@ -178,9 +185,9 @@
       const dx = event.clientX - dragLastX;
       const dy = event.clientY - dragLastY;
       const dragScale = 1 / Math.max(0.3, controls.zoom);
-      const touchBoost = isMobileViewport() ? 18 : 3.2;
+      const touchBoost = isMobileViewport() ? 11.5 : 3.2;
       controls.x = clamp(controls.x - dx * dragScale * touchBoost, -controls.maxX, controls.maxX);
-      controls.y = clamp(controls.y - dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
+      controls.y = clamp(controls.y + dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
       dragLastX = event.clientX;
       dragLastY = event.clientY;
     }
@@ -361,6 +368,7 @@
       uniform float uTunnelShear;
       uniform float uRepeatMix;
       uniform float uCutMix;
+      uniform vec2 uFrameBias;
       uniform vec3 uTintA;
       uniform vec3 uTintB;
       uniform vec3 uTintC;
@@ -427,7 +435,7 @@
       }
 
       void main() {
-        vec2 uv = (((2.0 * gl_FragCoord.xy - uResolution.xy) / min(uResolution.x, uResolution.y)) / uZoom) * uUvScale;
+        vec2 uv = ((((2.0 * gl_FragCoord.xy - uResolution.xy) / min(uResolution.x, uResolution.y)) + uFrameBias) / uZoom) * uUvScale;
         vec3 ro;
         if (${shaderConfig.cameraMode} == 0) ro = vec3(uView.x + sin(uTime * 0.22) * 0.45, uView.y + cos(uTime * 0.17) * 0.35, -4.5 + uTime * ${shaderConfig.speed.toFixed(4)});
         else if (${shaderConfig.cameraMode} == 1) ro = vec3(uView.x + sin(uTime * 0.35) * 0.85, uView.y + cos(uTime * 0.24) * 0.7, -4.0 + uTime * ${shaderConfig.speed.toFixed(4)});
@@ -568,6 +576,7 @@
     tunnelShader.setUniform("uTime", frameCount * 0.03);
     const viewScale = getViewUniformScale();
     tunnelShader.setUniform("uView", [controls.x * viewScale, controls.y * viewScale]);
+    tunnelShader.setUniform("uFrameBias", getFrameBias());
     tunnelShader.setUniform("uZoom", controls.zoom);
     tunnelShader.setUniform("uRepeat", config.repeat);
     tunnelShader.setUniform("uRadius", config.radius);
