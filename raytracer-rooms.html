@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A touch-friendly raytraced room explorer on Thingbert.">
+  <title>Thingbert - Raytracer Rooms</title>
+  <link rel="stylesheet" href="assets/css/main.css?v=20260313">
+  <link rel="stylesheet" href="assets/css/raytracer-rooms.css?v=20260313">
+  <script src="assets/js/site.js?v=20260313" defer></script>
+  <script src="assets/js/p5.min.js" defer></script>
+  <script src="assets/js/raytracer-rooms.js?v=20260313" defer></script>
+</head>
+<body class="raytracer-body">
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Thingbert</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="primary-nav">
+        <a href="index.html">Home</a>
+        <a href="compare-your-price-to-medicare.html">Medicare Price Comparison</a>
+        <a href="haiku-lab.html">Haiku Generator</a>
+        <a href="raytracer-rooms.html" class="active" aria-current="page">Raytracer Rooms</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="ray-page">
+    <div id="canvas-shell" aria-hidden="true"></div>
+
+    <aside class="ray-panel" aria-label="Room controls">
+      <div class="ray-panel-desktop">
+        <div class="ray-title">Move</div>
+        <div class="ray-grid">
+          <button class="ray-button" data-move="up" type="button">8 Up</button>
+          <button class="ray-button" data-move="left" type="button">4 Left</button>
+          <button class="ray-button" data-move="down" type="button">5 Down</button>
+          <button class="ray-button" data-move="right" type="button">6 Right</button>
+        </div>
+        <div class="ray-title">Zoom</div>
+        <div class="ray-grid">
+          <button class="ray-button" data-zoom="out" type="button">7 Out</button>
+          <button class="ray-button" data-zoom="in" type="button">9 In</button>
+        </div>
+      </div>
+
+      <div class="ray-panel-mobile">
+        <p>Drag to move. Pinch to zoom.</p>
+      </div>
+
+      <a class="ray-next" href="raytracer-rooms.html" aria-label="Generate another room">Space Next Room</a>
+    </aside>
+  </main>
+</body>
+</html>
