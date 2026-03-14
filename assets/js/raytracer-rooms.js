@@ -3,6 +3,7 @@
   const moveButtons = document.querySelectorAll("[data-move]");
   const zoomButtons = document.querySelectorAll("[data-zoom]");
   const panel = document.querySelector(".ray-panel");
+  const header = document.querySelector(".site-header");
 
   const controls = {
     x: 0,
@@ -37,6 +38,22 @@
   let runtimeRejects = 0;
   let autoRejectBudget = 0;
   let configVersion = 0;
+
+  function getHeaderOffset() {
+    return Math.max(0, Math.round(header?.getBoundingClientRect().height || 84));
+  }
+
+  function getViewportHeight() {
+    return Math.round(window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight || 0);
+  }
+
+  function getCanvasHeight() {
+    return Math.max(320, getViewportHeight() - getHeaderOffset());
+  }
+
+  function syncLayoutMetrics() {
+    document.body.style.setProperty("--ray-header-offset", `${getHeaderOffset()}px`);
+  }
 
   function updateSeedInUrl(seed) {
     const url = new URL(window.location.href);
@@ -142,8 +159,9 @@
       const dx = event.clientX - dragLastX;
       const dy = event.clientY - dragLastY;
       const dragScale = 1 / Math.max(0.3, controls.zoom);
-      controls.x = clamp(controls.x + dx * dragScale * 2.2, -controls.maxX, controls.maxX);
-      controls.y = clamp(controls.y + dy * dragScale * 2.2, -controls.maxY, controls.maxY);
+      const touchBoost = window.matchMedia("(max-width: 700px)").matches ? 5.2 : 3.2;
+      controls.x = clamp(controls.x + dx * dragScale * touchBoost, -controls.maxX, controls.maxX);
+      controls.y = clamp(controls.y + dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
       dragLastX = event.clientX;
       dragLastY = event.clientY;
     }
@@ -457,7 +475,8 @@
   }
 
   window.setup = function setup() {
-    const canvas = createCanvas(window.innerWidth, Math.max(320, window.innerHeight - 84), WEBGL);
+    syncLayoutMetrics();
+    const canvas = createCanvas(window.innerWidth, getCanvasHeight(), WEBGL);
     canvas.parent("canvas-shell");
     noStroke();
     rebuildRoom(roomSeed);
@@ -572,6 +591,16 @@
   };
 
   window.windowResized = function windowResized() {
-    resizeCanvas(window.innerWidth, Math.max(320, window.innerHeight - 84));
+    syncLayoutMetrics();
+    resizeCanvas(window.innerWidth, getCanvasHeight());
   };
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", () => {
+      syncLayoutMetrics();
+      if (typeof resizeCanvas === "function") {
+        resizeCanvas(window.innerWidth, getCanvasHeight());
+      }
+    });
+  }
 })();
