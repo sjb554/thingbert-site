@@ -60,9 +60,9 @@
       return { x: 0, y: 0, zoom: 1 };
     }
     return {
-      x: 360,
-      y: 300,
-      zoom: 0.82
+      x: -560,
+      y: -440,
+      zoom: 0.7
     };
   }
 
@@ -174,7 +174,7 @@
       const dx = event.clientX - dragLastX;
       const dy = event.clientY - dragLastY;
       const dragScale = 1 / Math.max(0.3, controls.zoom);
-      const touchBoost = isMobileViewport() ? 7.2 : 3.2;
+      const touchBoost = isMobileViewport() ? 9.4 : 3.2;
       controls.x = clamp(controls.x + dx * dragScale * touchBoost, -controls.maxX, controls.maxX);
       controls.y = clamp(controls.y + dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
       dragLastX = event.clientX;
