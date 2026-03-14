@@ -67,14 +67,18 @@
   }
 
   function getViewUniformScale() {
-    return isMobileViewport() ? 0.0075 : 0.0025;
+    return isMobileViewport() ? 0.016 : 0.0025;
   }
 
   function getFrameBias() {
     if (!isMobileViewport()) {
       return [0, 0];
     }
-    return [-0.18, -0.12];
+    return [0.22, 0.16];
+  }
+
+  function getCameraDrift() {
+    return isMobileViewport() ? 0.18 : 1;
   }
 
   function syncLayoutMetrics() {
@@ -185,9 +189,9 @@
       const dx = event.clientX - dragLastX;
       const dy = event.clientY - dragLastY;
       const dragScale = 1 / Math.max(0.3, controls.zoom);
-      const touchBoost = isMobileViewport() ? 11.5 : 3.2;
+      const touchBoost = isMobileViewport() ? 7.5 : 3.2;
       controls.x = clamp(controls.x - dx * dragScale * touchBoost, -controls.maxX, controls.maxX);
-      controls.y = clamp(controls.y + dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
+      controls.y = clamp(controls.y - dy * dragScale * touchBoost, -controls.maxY, controls.maxY);
       dragLastX = event.clientX;
       dragLastY = event.clientY;
     }
@@ -369,6 +373,7 @@
       uniform float uRepeatMix;
       uniform float uCutMix;
       uniform vec2 uFrameBias;
+      uniform float uCameraDrift;
       uniform vec3 uTintA;
       uniform vec3 uTintB;
       uniform vec3 uTintC;
@@ -437,9 +442,9 @@
       void main() {
         vec2 uv = ((((2.0 * gl_FragCoord.xy - uResolution.xy) / min(uResolution.x, uResolution.y)) + uFrameBias) / uZoom) * uUvScale;
         vec3 ro;
-        if (${shaderConfig.cameraMode} == 0) ro = vec3(uView.x + sin(uTime * 0.22) * 0.45, uView.y + cos(uTime * 0.17) * 0.35, -4.5 + uTime * ${shaderConfig.speed.toFixed(4)});
-        else if (${shaderConfig.cameraMode} == 1) ro = vec3(uView.x + sin(uTime * 0.35) * 0.85, uView.y + cos(uTime * 0.24) * 0.7, -4.0 + uTime * ${shaderConfig.speed.toFixed(4)});
-        else ro = vec3(uView.x + cos(uTime * 0.18) * 1.15, uView.y + sin(uTime * 0.21) * 0.8, -5.2 + uTime * ${shaderConfig.speed.toFixed(4)});
+        if (${shaderConfig.cameraMode} == 0) ro = vec3(uView.x + sin(uTime * 0.22) * 0.45 * uCameraDrift, uView.y + cos(uTime * 0.17) * 0.35 * uCameraDrift, -4.5 + uTime * ${shaderConfig.speed.toFixed(4)});
+        else if (${shaderConfig.cameraMode} == 1) ro = vec3(uView.x + sin(uTime * 0.35) * 0.85 * uCameraDrift, uView.y + cos(uTime * 0.24) * 0.7 * uCameraDrift, -4.0 + uTime * ${shaderConfig.speed.toFixed(4)});
+        else ro = vec3(uView.x + cos(uTime * 0.18) * 1.15 * uCameraDrift, uView.y + sin(uTime * 0.21) * 0.8 * uCameraDrift, -5.2 + uTime * ${shaderConfig.speed.toFixed(4)});
 
         vec3 rd = normalize(vec3(uv * vec2(0.95, 1.08), 1.2));
         float t = 0.0;
@@ -577,6 +582,7 @@
     const viewScale = getViewUniformScale();
     tunnelShader.setUniform("uView", [controls.x * viewScale, controls.y * viewScale]);
     tunnelShader.setUniform("uFrameBias", getFrameBias());
+    tunnelShader.setUniform("uCameraDrift", getCameraDrift());
     tunnelShader.setUniform("uZoom", controls.zoom);
     tunnelShader.setUniform("uRepeat", config.repeat);
     tunnelShader.setUniform("uRadius", config.radius);
