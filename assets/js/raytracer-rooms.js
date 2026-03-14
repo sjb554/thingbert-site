@@ -28,11 +28,26 @@
     return Math.max(0.18, Math.min(8, value));
   }
 
+  let roomSeed = new URLSearchParams(window.location.search).get("seed") || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  const roomDepth = 1;
+  let rng = null;
+  let config = null;
+  let tunnelShader = null;
+  let framesSinceConfig = 0;
+  let runtimeRejects = 0;
+  let autoRejectBudget = 0;
+  let configVersion = 0;
+
+  function updateSeedInUrl(seed) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("seed", seed);
+    window.history.replaceState({}, "", url.toString());
+  }
+
   function nextRoom() {
-    if (!nextLink) return;
-    const url = new URL(nextLink.href, window.location.href);
-    url.searchParams.set("seed", `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
-    window.location.href = url.toString();
+    const seed = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    autoRejectBudget = 0;
+    rebuildRoom(seed);
   }
 
   function isInsidePanel(target) {
@@ -59,6 +74,13 @@
   window.addEventListener("keyup", (event) => {
     keys.delete(event.key.toLowerCase());
   });
+
+  if (nextLink) {
+    nextLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      nextRoom();
+    });
+  }
 
   function setMovePressed(direction, pressed) {
     const key = { up: "8", left: "4", down: "5", right: "6" }[direction];
@@ -179,10 +201,11 @@
     };
   }
 
-  const roomSeed = new URLSearchParams(window.location.search).get("seed") || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-  const roomDepth = 1;
-  const seedGen = hashSeed(`${roomSeed}-${roomDepth}-${location.pathname}`);
-  const rng = mulberry32(seedGen());
+  function resetRng(seed) {
+    roomSeed = seed;
+    const seedGen = hashSeed(`${roomSeed}-${roomDepth}-${location.pathname}`);
+    rng = mulberry32(seedGen());
+  }
 
   function rr(min, max) {
     return min + (max - min) * rng();
@@ -212,32 +235,32 @@
   function createConfig() {
     return {
       sceneMode: ri(0, 7),
-      colorMode: ri(0, 7),
-      cameraMode: ri(0, 4),
-      speed: rr(0.18, 1.15),
-      repeat: rr(1.4, 5.8),
-      radius: rr(0.14, 0.72),
-      radiusB: rr(0.08, 0.54),
-      pulse: rr(0.03, 0.34),
-      warp: rr(0.3, 2.2),
-      twist: rr(0.08, 2.6),
-      ridge: rr(0.02, 0.7),
-      noiseGain: rr(14, 58),
-      uvX: rr(0.62, 1.6),
-      uvY: rr(0.62, 1.6),
-      march: ri(52, 90),
-      ambient: rr(0.08, 0.24),
-      accent: rr(0.06, 0.34),
-      fog: rr(20, 220),
-      colorFreqA: rr(4, 36),
-      colorFreqB: rr(0.25, 4.2),
-      tunnelTilt: rr(-0.8, 0.8),
-      tunnelShear: rr(0, 1.2),
-      repeatMix: rr(0.2, 1.4),
-      cutMix: rr(0.1, 1.2),
-      tintA: [rr(0.12, 1.45), rr(0.12, 1.4), rr(0.15, 1.65)],
-      tintB: [rr(0.08, 1.45), rr(0.08, 1.15), rr(0.08, 1.3)],
-      tintC: [rr(0.08, 1.35), rr(0.08, 1.35), rr(0.08, 1.35)]
+      colorMode: ri(0, 9),
+      cameraMode: ri(0, 2),
+      speed: rr(0.24, 0.96),
+      repeat: rr(1.2, 4.3),
+      radius: rr(0.2, 0.82),
+      radiusB: rr(0.12, 0.64),
+      pulse: rr(0.05, 0.42),
+      warp: rr(0.45, 2.6),
+      twist: rr(0.12, 3.3),
+      ridge: rr(0.05, 0.92),
+      noiseGain: rr(8, 34),
+      uvX: rr(0.82, 1.42),
+      uvY: rr(0.82, 1.42),
+      march: ri(64, 96),
+      ambient: rr(0.15, 0.34),
+      accent: rr(0.12, 0.42),
+      fog: rr(40, 260),
+      colorFreqA: rr(5, 30),
+      colorFreqB: rr(0.35, 4.8),
+      tunnelTilt: rr(-0.42, 0.42),
+      tunnelShear: rr(0.02, 0.9),
+      repeatMix: rr(0.28, 1.55),
+      cutMix: rr(0.16, 1.3),
+      tintA: [rr(0.22, 1.7), rr(0.18, 1.6), rr(0.2, 1.9)],
+      tintB: [rr(0.18, 1.7), rr(0.14, 1.5), rr(0.14, 1.6)],
+      tintC: [rr(0.16, 1.55), rr(0.16, 1.55), rr(0.16, 1.55)]
     };
   }
 
@@ -247,34 +270,29 @@
     const spread = rgbSpread(cfg.tintA, cfg.tintB, cfg.tintC) * 180;
     const geometry = cfg.repeat * 12 + cfg.radius * 40 + cfg.radiusB * 30 + cfg.pulse * 90 + cfg.noiseGain + cfg.twist * 18 + cfg.ridge * 50 + cfg.cutMix * 20;
     const motion = cfg.speed * 20 + cfg.warp * 16 + cfg.repeatMix * 18;
-    const score = contrastAB * 16 + contrastBC * 10 + spread * 0.4 + geometry + motion + cfg.march * 0.9 + cfg.ambient * 90;
-    const accepted = contrastAB > 0.7 && spread > 125 && geometry > 90 && cfg.ambient > 0.095;
+    const brightness = cfg.ambient * 140 + cfg.accent * 60 + cfg.fog * 0.18;
+    const score = contrastAB * 18 + contrastBC * 12 + spread * 0.45 + geometry + motion + cfg.march * 1.1 + brightness;
+    const accepted = contrastAB > 0.95 && contrastBC > 0.55 && spread > 155 && geometry > 105 && cfg.ambient > 0.14;
     return { score, accepted };
   }
 
   function pickConfig() {
     let best = null;
-    for (let i = 0; i < 42; i += 1) {
+    for (let i = 0; i < 64; i += 1) {
       const cfg = createConfig();
       const quality = scoreConfig(cfg);
       if (!best || quality.score > best.score) {
         best = { cfg, score: quality.score, accepted: quality.accepted };
       }
-      if (quality.accepted && quality.score > 112) {
+      if (quality.accepted && quality.score > 170) {
         break;
       }
     }
     return best.cfg;
   }
 
-  const config = pickConfig();
-  let tunnelShader;
-
-  function setup() {
-    const canvas = createCanvas(window.innerWidth, Math.max(320, window.innerHeight - 84), WEBGL);
-    canvas.parent("canvas-shell");
-    noStroke();
-
+  function buildShader(nextConfig) {
+    const shaderConfig = nextConfig;
     const vertexShader = `
       attribute vec3 aPosition;
       void main() {
@@ -338,13 +356,13 @@
         float b = sdTorus(p, vec2(uRadius * (1.15 + uWarp * 0.25), uRadiusB * (0.25 + uRidge)));
         float c = sdBox(p, vec3(uRadius * (0.8 + uCutMix), uRadius * (0.24 + uRidge), uRadius * (0.7 + uWarp * 0.3)));
         float d = sdCylinder(p, vec2(uRadius * (0.4 + uRepeatMix * 0.3), uRadius * (1.2 + uCutMix * 0.4)));
-        if (${config.sceneMode} == 0) return min(a, b);
-        if (${config.sceneMode} == 1) return min(max(a, -b * 0.8), c);
-        if (${config.sceneMode} == 2) return min(c, d);
-        if (${config.sceneMode} == 3) return min(a, max(b, -d * 0.7));
-        if (${config.sceneMode} == 4) return min(max(c, -a * 0.65), b);
-        if (${config.sceneMode} == 5) return min(d, a);
-        if (${config.sceneMode} == 6) return min(max(d, -b * 0.7), c);
+        if (${shaderConfig.sceneMode} == 0) return min(a, b);
+        if (${shaderConfig.sceneMode} == 1) return min(max(a, -b * 0.8), c);
+        if (${shaderConfig.sceneMode} == 2) return min(c, d);
+        if (${shaderConfig.sceneMode} == 3) return min(a, max(b, -d * 0.7));
+        if (${shaderConfig.sceneMode} == 4) return min(max(c, -a * 0.65), b);
+        if (${shaderConfig.sceneMode} == 5) return min(d, a);
+        if (${shaderConfig.sceneMode} == 6) return min(max(d, -b * 0.7), c);
         return min(a, min(b, min(c, d)));
       }
 
@@ -360,7 +378,7 @@
       }
 
       vec3 paletteA(float t, vec3 weird, float fog) {
-        return vec3(fog + 0.12, 0.65 + sin(t * uColorFreqA) * 1.6, (weird.y + 4.0) * 0.05 * tan(weird.y * max(t, 0.001)));
+        return vec3(fog + 0.18, 0.72 + sin(t * uColorFreqA) * 1.55, (weird.y + 4.0) * 0.05 * tan(weird.y * max(t, 0.001)));
       }
 
       vec3 paletteB(float t, vec3 weird) {
@@ -374,11 +392,9 @@
       void main() {
         vec2 uv = (((2.0 * gl_FragCoord.xy - uResolution.xy) / min(uResolution.x, uResolution.y)) / uZoom) * uUvScale;
         vec3 ro;
-        if (${config.cameraMode} == 0) ro = vec3(uView.x, uView.y, -5.0 + uTime * ${config.speed.toFixed(4)});
-        else if (${config.cameraMode} == 1) ro = vec3(uView.x + sin(uTime * 0.35) * 1.2, uView.y + cos(uTime * 0.24) * 1.0, -4.0 + uTime * ${config.speed.toFixed(4)});
-        else if (${config.cameraMode} == 2) ro = vec3(uView.x + cos(uTime * 0.18) * 2.4, uView.y + sin(uTime * 0.21) * 1.5, -6.0 + uTime * ${config.speed.toFixed(4)});
-        else if (${config.cameraMode} == 3) ro = vec3(uView.x + sin(uTime * 0.5) * 0.5, uView.y, -4.5 + uTime * ${config.speed.toFixed(4)} + sin(uTime) * 0.8);
-        else ro = vec3(uView.x, uView.y + cos(uTime * 0.33) * 1.4, -5.5 + uTime * ${config.speed.toFixed(4)});
+        if (${shaderConfig.cameraMode} == 0) ro = vec3(uView.x + sin(uTime * 0.22) * 0.45, uView.y + cos(uTime * 0.17) * 0.35, -4.5 + uTime * ${shaderConfig.speed.toFixed(4)});
+        else if (${shaderConfig.cameraMode} == 1) ro = vec3(uView.x + sin(uTime * 0.35) * 0.85, uView.y + cos(uTime * 0.24) * 0.7, -4.0 + uTime * ${shaderConfig.speed.toFixed(4)});
+        else ro = vec3(uView.x + cos(uTime * 0.18) * 1.15, uView.y + sin(uTime * 0.21) * 0.8, -5.2 + uTime * ${shaderConfig.speed.toFixed(4)});
 
         vec3 rd = normalize(vec3(uv * vec2(0.95, 1.08), 1.2));
         float t = 0.0;
@@ -386,16 +402,16 @@
         float hit = 0.0;
         vec3 hitP = ro;
 
-        for (int i = 0; i < ${config.march}; i++) {
+        for (int i = 0; i < ${shaderConfig.march}; i++) {
           vec3 p = ro + rd * t;
           float d = scene(p);
-          glow += 0.024 / (0.028 + d * d * uNoiseGain);
-          if (d < 0.005 || t > 40.0) {
+          glow += 0.03 / (0.03 + d * d * uNoiseGain);
+          if (d < 0.005 || t > 38.0) {
             hit = t;
             hitP = p;
             break;
           }
-          t += d * (0.6 + uWarp * 0.1);
+          t += max(0.01, d * (0.62 + uWarp * 0.08));
         }
 
         float fog = uFog / (18.0 + hit * hit * (0.6 + 0.4 * sin(hit * hit * 0.9)));
@@ -404,27 +420,109 @@
         vec3 b = paletteB(hit, weird);
         vec3 c = paletteC(hit, weird);
 
-        vec3 color = vec3(uAmbient, uAmbient, uAmbient + uAccent * 0.55);
-        if (${config.colorMode} == 0) color += glow * (a * uTintA + b * uTintB * 0.45);
-        else if (${config.colorMode} == 1) color += glow * (b * uTintA * 0.95 + c * uTintB * 0.75);
-        else if (${config.colorMode} == 2) color += glow * (abs(a / atan(max(0.15, weird.x * weird.y * 0.75))) * uTintA * 0.24 + c * uTintB * 0.66);
-        else if (${config.colorMode} == 3) color += glow * (vec3(a.r, c.g, b.b) * uTintA + vec3(c.r, b.g, a.b) * uTintB * 0.58);
-        else if (${config.colorMode} == 4) color += glow * (c * uTintA * 0.84 + (0.5 + 0.5 * sin(vec3(2.0, 3.0, 4.0) * (uTime * 0.4 + glow))) * uTintB);
-        else if (${config.colorMode} == 5) color += glow * (a * uTintA * 0.32 + b * uTintB * 0.46 + c * uTintC * 0.62);
-        else if (${config.colorMode} == 6) color += glow * (vec3(b.r, a.g, c.b) * uTintA * 0.75 + vec3(c.r, a.b, b.g) * uTintC * 0.7);
+        vec3 color = vec3(uAmbient * 1.05, uAmbient, uAmbient + uAccent * 0.7);
+        if (${shaderConfig.colorMode} == 0) color += glow * (a * uTintA + b * uTintB * 0.45);
+        else if (${shaderConfig.colorMode} == 1) color += glow * (b * uTintA * 0.95 + c * uTintB * 0.75);
+        else if (${shaderConfig.colorMode} == 2) color += glow * (abs(a / atan(max(0.15, weird.x * weird.y * 0.75))) * uTintA * 0.24 + c * uTintB * 0.66);
+        else if (${shaderConfig.colorMode} == 3) color += glow * (vec3(a.r, c.g, b.b) * uTintA + vec3(c.r, b.g, a.b) * uTintB * 0.58);
+        else if (${shaderConfig.colorMode} == 4) color += glow * (c * uTintA * 0.84 + (0.5 + 0.5 * sin(vec3(2.0, 3.0, 4.0) * (uTime * 0.4 + glow))) * uTintB);
+        else if (${shaderConfig.colorMode} == 5) color += glow * (a * uTintA * 0.32 + b * uTintB * 0.46 + c * uTintC * 0.62);
+        else if (${shaderConfig.colorMode} == 6) color += glow * (vec3(b.r, a.g, c.b) * uTintA * 0.75 + vec3(c.r, a.b, b.g) * uTintC * 0.7);
+        else if (${shaderConfig.colorMode} == 7) color += glow * ((0.35 + 0.65 * sin(vec3(1.0, 2.3, 4.2) * (hit * 0.2 + uTime * 0.12))) * uTintA + c * uTintC * 0.82);
+        else if (${shaderConfig.colorMode} == 8) color += glow * (vec3(c.r, a.r, b.g) * uTintA * 0.64 + vec3(a.b, c.g, b.b) * uTintB * 0.72 + c * uTintC * 0.4);
         else color += glow * (a * uTintA * 0.2 + (b + c) * uTintB * 0.38 + abs(sin(vec3(4.0, 5.0, 6.0) * (glow + hit * 0.1))) * uTintC * 0.9);
 
-        color += 0.12 * vec3(length(uv), 0.08, 0.14);
-        color = max(color, vec3(uAmbient * 0.95, uAmbient * 0.92, uAmbient + uAccent * 0.3));
+        color += 0.18 * vec3(length(uv) * 0.7, 0.12, 0.18);
+        color = max(color, vec3(uAmbient + 0.025, uAmbient + 0.02, uAmbient + uAccent * 0.36));
         gl_FragColor = vec4(color, 1.0);
       }
     `;
 
     tunnelShader = createShader(vertexShader, fragmentShader);
+  }
+
+  function rebuildRoom(seed) {
+    resetRng(seed || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+    updateSeedInUrl(roomSeed);
+    config = pickConfig();
+    configVersion += 1;
+    framesSinceConfig = 0;
+    runtimeRejects = autoRejectBudget;
+    controls.x = 0;
+    controls.y = 0;
+    controls.zoom = 1;
+    if (typeof createShader === "function") {
+      buildShader(config);
+    }
+  }
+
+  function setup() {
+    const canvas = createCanvas(window.innerWidth, Math.max(320, window.innerHeight - 84), WEBGL);
+    canvas.parent("canvas-shell");
+    noStroke();
+    rebuildRoom(roomSeed);
     animateControls();
   }
 
+  function sampleRegion(gl, left, bottom, sampleWidth, sampleHeight) {
+    const pixels = new Uint8Array(sampleWidth * sampleHeight * 4);
+    gl.readPixels(left, bottom, sampleWidth, sampleHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+    let total = 0;
+    let maxLum = 0;
+    let colorful = 0;
+    let bright = 0;
+    const count = sampleWidth * sampleHeight;
+    for (let i = 0; i < pixels.length; i += 4) {
+      const r = pixels[i];
+      const g = pixels[i + 1];
+      const b = pixels[i + 2];
+      const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      total += lum;
+      maxLum = Math.max(maxLum, lum);
+      if (Math.max(r, g, b) - Math.min(r, g, b) > 22) colorful += 1;
+      if (lum > 34) bright += 1;
+    }
+    return {
+      avgLum: total / count,
+      maxLum,
+      colorfulRatio: colorful / count,
+      brightRatio: bright / count
+    };
+  }
+
+  function frameLooksWeak() {
+    const gl = drawingContext;
+    if (!gl || typeof gl.readPixels !== "function") return false;
+    const sampleWidth = Math.max(12, Math.floor(width / 14));
+    const sampleHeight = Math.max(12, Math.floor(height / 14));
+    const anchors = [
+      [0.5, 0.5],
+      [0.25, 0.5],
+      [0.75, 0.5],
+      [0.5, 0.25],
+      [0.5, 0.75]
+    ];
+    let avgLum = 0;
+    let maxLum = 0;
+    let colorfulRatio = 0;
+    let brightRatio = 0;
+    for (const [ax, ay] of anchors) {
+      const left = Math.max(0, Math.min(width - sampleWidth, Math.floor(width * ax - sampleWidth / 2)));
+      const bottom = Math.max(0, Math.min(height - sampleHeight, Math.floor(height * (1 - ay) - sampleHeight / 2)));
+      const sample = sampleRegion(gl, left, bottom, sampleWidth, sampleHeight);
+      avgLum += sample.avgLum;
+      maxLum = Math.max(maxLum, sample.maxLum);
+      colorfulRatio += sample.colorfulRatio;
+      brightRatio += sample.brightRatio;
+    }
+    avgLum /= anchors.length;
+    colorfulRatio /= anchors.length;
+    brightRatio /= anchors.length;
+    return avgLum < 24 || maxLum < 70 || colorfulRatio < 0.05 || brightRatio < 0.09;
+  }
+
   function draw() {
+    if (!tunnelShader || !config) return;
     resetMatrix();
     shader(tunnelShader);
     tunnelShader.setUniform("uResolution", [width, height]);
@@ -458,6 +556,19 @@
     vertex(-1, 1, 0);
     vertex(1, 1, 0);
     endShape();
+
+    framesSinceConfig += 1;
+    if (framesSinceConfig === 10 || framesSinceConfig === 18) {
+      const versionAtSample = configVersion;
+      setTimeout(() => {
+        if (versionAtSample !== configVersion || runtimeRejects >= 6) return;
+        if (frameLooksWeak()) {
+          autoRejectBudget += 1;
+          runtimeRejects = autoRejectBudget;
+          rebuildRoom(`${roomSeed}-retry-${runtimeRejects}-${Math.random().toString(36).slice(2, 6)}`);
+        }
+      }, 0);
+    }
   }
 
   function windowResized() {
